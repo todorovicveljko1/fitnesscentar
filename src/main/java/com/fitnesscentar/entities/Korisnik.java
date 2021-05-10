@@ -1,25 +1,41 @@
 package com.fitnesscentar.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
+import java.util.Set;
 
 @Entity
-public class Korisnik {
+public class Korisnik implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+
+    @Column(unique = true)
     private String korisnickoIme;
+    @Column
     private String lozinka;
+    @Column
     private String ime;
+    @Column
     private String prezime;
+    @Column
     private String telefon;
+    @Column(unique = true)
     private String email;
+    @Column
     private Date datumRodjenja;
+    @Column
     private Enum<Uloga> uloga;
+    @Column
     private boolean aktivan;
+
+    @OneToMany(mappedBy = "clan", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<KorisnikTrening> clanTreninzi;
+
+    @OneToMany(mappedBy = "trener", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Trening> trenerTreninzi;
 
 
 

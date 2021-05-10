@@ -1,23 +1,35 @@
 package com.fitnesscentar.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
-import java.time.Duration;
+import java.util.Set;
 
 @Entity
-public class Trening {
+public class Trening implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column
     private String naziv;
+    @Column
     private String opis;
+    @Column
     private String tipTreninga;
-    private Duration trajanje;
+    @Column
+    private int trajanje;
+    @Column
     private Timestamp vremePocetak;
+    @Column
     private double cena;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Korisnik trener;
+    @ManyToMany(mappedBy = "treninzi")
+    private Set<Sala> sale;
+    @OneToMany(mappedBy = "trening", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<KorisnikTrening> ucesnici;
 
     public Timestamp getVremePocetak() {
         return vremePocetak;
@@ -59,11 +71,11 @@ public class Trening {
         this.tipTreninga = tipTreninga;
     }
 
-    public Duration getTrajanje() {
+    public int getTrajanje() {
         return trajanje;
     }
 
-    public void setTrajanje(Duration trajanje) {
+    public void setTrajanje(int trajanje) {
         this.trajanje = trajanje;
     }
 

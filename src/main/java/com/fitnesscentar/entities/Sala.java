@@ -1,17 +1,28 @@
 package com.fitnesscentar.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Set;
 
 @Entity
-public class Sala {
+public class Sala implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+
+    @Column
     private int kapacitet;
-    private int oznaka;
+    @Column
+    private String oznaka;
+
+    @ManyToMany
+    @JoinTable(name = "sala_trening",
+            joinColumns = @JoinColumn(name = "sala_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "trening_id", referencedColumnName = "id"))
+    private Set<Trening> treninzi;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private FitnessCentar fitnessCentar;
 
     public long getId() {
         return id;
@@ -29,11 +40,11 @@ public class Sala {
         this.kapacitet = kapacitet;
     }
 
-    public int getOznaka() {
+    public String getOznaka() {
         return oznaka;
     }
 
-    public void setOznaka(int oznaka) {
+    public void setOznaka(String oznaka) {
         this.oznaka = oznaka;
     }
 }

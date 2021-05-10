@@ -1,19 +1,27 @@
 package com.fitnesscentar.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
-public class FitnessCentar {
+public class FitnessCentar implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column
     private String naziv;
+    @Column
     private String adresa;
+    @Column
     private String telefon;
+    @Column
     private String email;
+
+    @OneToMany(mappedBy = "fitnessCentar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Sala> sale;
 
     public long getId() {
         return id;
