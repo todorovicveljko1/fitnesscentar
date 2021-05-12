@@ -3,6 +3,7 @@ package com.fitnesscentar.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,25 +20,12 @@ public class Trening implements Serializable {
     private String tipTreninga;
     @Column
     private int trajanje;
-    @Column
-    private Timestamp vremePocetak;
-    @Column
-    private double cena;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Korisnik trener;
-    @ManyToMany(mappedBy = "treninzi")
-    private Set<Sala> sale;
+
     @OneToMany(mappedBy = "trening", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<KorisnikTrening> ucesnici;
-
-    public Timestamp getVremePocetak() {
-        return vremePocetak;
-    }
-
-    public void setVremePocetak(Timestamp vremePocetak) {
-        this.vremePocetak = vremePocetak;
-    }
+    private Set<Termin> termini = new HashSet<>();
 
     public long getId() {
         return id;
@@ -77,13 +65,5 @@ public class Trening implements Serializable {
 
     public void setTrajanje(int trajanje) {
         this.trajanje = trajanje;
-    }
-
-    public double getCena() {
-        return cena;
-    }
-
-    public void setCena(double cena) {
-        this.cena = cena;
     }
 }

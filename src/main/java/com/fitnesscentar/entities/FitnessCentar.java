@@ -2,6 +2,7 @@ package com.fitnesscentar.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -20,8 +21,13 @@ public class FitnessCentar implements Serializable {
     @Column
     private String email;
 
+    // Lista sala
     @OneToMany(mappedBy = "fitnessCentar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Sala> sale;
+    private Set<Sala> sale = new HashSet<>();
+    // Lista trenera
+    @OneToMany(mappedBy = "fitnessCentar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Korisnik> treneri = new HashSet<>();
+
 
     public long getId() {
         return id;

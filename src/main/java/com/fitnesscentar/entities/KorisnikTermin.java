@@ -4,19 +4,19 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class KorisnikTrening {
+public class KorisnikTermin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     @Column
     private int ocena;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    // Koji clan ide
+    @ManyToOne(fetch = FetchType.EAGER)
     private Korisnik clan;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Trening trening;
+    // Na termin
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Termin termin;
 
     public long getId() {
         return id;

@@ -3,6 +3,7 @@ package com.fitnesscentar.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,18 +27,23 @@ public class Korisnik implements Serializable {
     private String email;
     @Column
     private Date datumRodjenja;
-    @Column
-    private Enum<Uloga> uloga;
+    // Uloga korisnika u sistemu
+    @Enumerated(EnumType.STRING)
+    private Uloga uloga;
     @Column
     private boolean aktivan;
 
+    // Gde trener radi
+    @ManyToOne(fetch = FetchType.LAZY)
+    private FitnessCentar fitnessCentar;
+
+    // Set termina na koje korisnik ide
     @OneToMany(mappedBy = "clan", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<KorisnikTrening> clanTreninzi;
+    private Set<KorisnikTermin> terminiTreninga = new HashSet<>();
 
+    // Set treninga koje trener drzi
     @OneToMany(mappedBy = "trener", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Trening> trenerTreninzi;
-
-
+    private Set<Trening> treninzi = new HashSet<>();
 
     public long getId() {
         return id;
@@ -95,11 +101,11 @@ public class Korisnik implements Serializable {
         this.datumRodjenja = datumRodjenja;
     }
 
-    public Enum<Uloga> getUloga() {
+    public Uloga getUloga() {
         return uloga;
     }
 
-    public void setUloga(Enum<Uloga> uloga) {
+    public void setUloga(Uloga uloga) {
         this.uloga = uloga;
     }
 

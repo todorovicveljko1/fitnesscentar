@@ -2,6 +2,7 @@ package com.fitnesscentar.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -9,18 +10,14 @@ public class Sala implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-
     @Column
     private int kapacitet;
     @Column
     private String oznaka;
 
-    @ManyToMany
-    @JoinTable(name = "sala_trening",
-            joinColumns = @JoinColumn(name = "sala_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "trening_id", referencedColumnName = "id"))
-    private Set<Trening> treninzi;
+    @OneToMany(mappedBy = "sala", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Termin> termini = new HashSet<>();
+
     @ManyToOne(fetch = FetchType.EAGER)
     private FitnessCentar fitnessCentar;
 
