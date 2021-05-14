@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="./css/main.css" rel="stylesheet">
+    <title>Fitness Centar</title>
+</head>
+<body>
+<div id="app">
+    <nav class='navbar navbar-expand-lg navbar-dark bg-dark'>
+        <div class='container-fluid'>
+            <a class='navbar-brand' href='#'>Fitness Centar</a>
+            <ul class='nav float-right align-items-center'>
+                <li class='nav-item ms-3'>
+                    <span class="nav-ime">Admin</span>
+                </li>
+                <li class='nav-item ms-3'>
+                    <a class='btn btn-secondary' href='#'>Odjavi se</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class='container card-page pt-4'>
+        <div class='m-auto p-4 rounded-3 shadow-sm card'>
+            <h2>Odobravanje trenera</h2>
+            <table class='table'>
+                <thead>
+                    <tr>
+                        <th style="width:130px">Korisničko ime</th>
+                        <th>Ime</th>
+                        <th class="d-none d-md-table-cell">Prezime</th>
+                        <th class="d-none d-lg-table-cell">Telefon</th>
+                        <th>Email</th>
+                        <th class="d-none d-md-table-cell">Datum</th>
+                        <th>Odobri</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ikac123</td>
+                        <td>Ilija</td>
+                        <td class="d-none d-md-table-cell">Ilić</td>
+                        <td class="d-none d-lg-table-cell">1231231231</td>
+                        <td>ikac123@gmail.com</td>
+                        <td class="d-none d-md-table-cell">17.07.1976</td>
+                        <td><input name="odobreni" type="checkbox"/></td>
+                    </tr>
+                    <tr>
+                        <td>veljko</td>
+                        <td>Veljko</td>
+                        <td class="d-none d-md-table-cell">Todorović</td>
+                        <td class="d-none d-lg-table-cell">1231231231</td>
+                        <td>todorovicveljko1@gmail.com</td>
+                        <td class="d-none d-md-table-cell">11.03.2000</td>
+                        <td><input name="odobreni" type="checkbox"/></td>
+                    </tr>
+                    <tr>
+                        <td>perica</td>
+                        <td>Pera</td>
+                        <td class="d-none d-md-table-cell">Perić</td>
+                        <td class="d-none d-lg-table-cell">1231231231</td>
+                        <td>perica.pera@gmail.com</td>
+                        <td class="d-none d-md-table-cell">01.09.1990</td>
+                        <td><input name="odobreni" type="checkbox"/></td>
+                    </tr>
+                    <tr>
+                        <td>miljko</td>
+                        <td>Milivoje</td>
+                        <td class="d-none d-md-table-cell">Milovojvić</td>
+                        <td class="d-none d-lg-table-cell">1231231231</td>
+                        <td>milivoye1@gmail.com</td>
+                        <td class="d-none d-md-table-cell">23.01.1987</td>
+                        <td><input name="odobreni" type="checkbox"/></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-primary px-4 me-2">Odobri</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+</body>
+</html>

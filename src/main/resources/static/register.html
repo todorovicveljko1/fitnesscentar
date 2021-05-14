@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="./css/main.css" rel="stylesheet">
+    <title>Fitness Centar</title>
+</head>
+<body>
+<div id="app">
+    <nav class='navbar navbar-expand-lg navbar-dark bg-dark'>
+        <div class='container-fluid'>
+            <a class='navbar-brand' href='#'>Fitness Centar</a>
+            <ul class='nav float-right'>
+                <li class='nav-item ms-3'>
+                    <a class='btn btn-primary' href='./login.html'>Prijava</a>
+                </li>
+                <li class='nav-item ms-3'>
+                    <a class='btn btn-secondary' href='./register.html'>Registracija</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class='container-fluid card-page d-flex justify-content-center align-items-center'>
+        <div class='m-auto p-4 rounded-3 shadow-sm card' style='width:360px'>
+            <h2>Registruj se</h2>
+            <form>
+                <div class='form-floating mb-3'>
+                    <input type='text' class='form-control' id='ime' placeholder='Ime'/>
+                    <label htmlFor='ime'>Ime</label>
+                </div>
+                <div class='form-floating mb-3'>
+                    <input type='text' class='form-control' id='prezime' placeholder='Prezime'/>
+                    <label htmlFor='prezime'>Prezime</label>
+                </div>
+                <div class='form-floating mb-3'>
+                    <input type='email' class='form-control' id='email' placeholder='name@example.com'/>
+                    <label htmlFor='email'>Email address</label>
+                </div>
+                <div class='form-floating mb-3'>
+                    <input type='password' class='form-control' id='password' placeholder='lozinka'/>
+                    <label htmlFor='password'>Lozinka</label>
+                </div>
+                <div class='form-floating mb-3'>
+                    <input type='text' class='form-control' id='telefon' placeholder='Telefon'/>
+                    <label htmlFor='password'>Telefon</label>
+                </div>
+                <div class='form-floating mb-3'>
+                    <input type='date' class='form-control' id='password' placeholder='Datum rođenja'/>
+                    <label htmlFor='password'>Datum rođenja</label>
+                </div>
+                <div class='mb-3 form-check'>
+                    <input type='checkbox' class='form-check-input' id='trener' />
+                    <label class='form-check-label' htmlFor='trener'>Registruj se kao trener</label>
+                </div>
+                <div class='d-flex justify-content-between'>
+                    <button class='btn btn-dark'>Otkaži</button>
+                    <button class='btn btn-primary'> Registruj se</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+</body>
+</html>

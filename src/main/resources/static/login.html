@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="./css/main.css" rel="stylesheet">
+    <title>Fitness Centar</title>
+</head>
+<body>
+    <div id="app">
+        <nav class='navbar navbar-expand-lg navbar-dark bg-dark'>
+            <div class='container-fluid'>
+                <a class='navbar-brand' href='#'>Fitness Centar</a>
+                <ul class='nav float-right'>
+                    <li class='nav-item ms-3'>
+                        <a class='btn btn-primary' href='./login.html'>Prijava</a>
+                    </li>
+                    <li class='nav-item ms-3'>
+                        <a class='btn btn-secondary' href='./register.html'>Registracija</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class='container-fluid card-page d-flex justify-content-center align-items-center'>
+            <div class='m-auto p-4 rounded-3 shadow-sm card' style='width:360px'>
+                <h2>Prijavi se</h2>
+                <form>
+                    <div class='mb-3 form-floating'>
+                        <input type='text' class='form-control' id='email_username' aria-describedby='emailHelp' placeholder="Email ili korisničko ime"/>
+                        <label htmlFor='email_username' class='form-label'>
+                            Email ili korisničko ime:
+                        </label>
+                    </div>
+                    <div class='mb-3 form-floating'>
+                        <input type='password' class='form-control' id='password' placeholder="lozinka"/>
+                        <label htmlFor='password' class='form-label'>Lozinka:</label>
+                    </div>
+                    <div class='mb-3 form-check'>
+                        <input type='checkbox' class='form-check-input' id='zapanti_me' />
+                        <label class='form-check-label' htmlFor='zapmanti_me'>Zapamti me</label>
+                    </div>
+                    <div class='d-flex justify-content-between'>
+                        <button class='btn btn-dark'>Otkaži</button>
+                        <button class='btn btn-primary'>Prijavi se</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+</body>
+</html>
