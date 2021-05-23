@@ -44,6 +44,11 @@ public class Korisnik implements Serializable {
     // Set treninga koje trener drzi
     @OneToMany(mappedBy = "trener", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Trening> treninzi = new HashSet<>();
+    @ManyToMany
+    @JoinTable(name = "prijavljeni",
+            joinColumns = @JoinColumn(name = "korisnik_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "termin_id", referencedColumnName = "id"))
+    private Set<Termin> prijavljeniTermini = new HashSet<>();
 
     public long getId() {
         return id;
