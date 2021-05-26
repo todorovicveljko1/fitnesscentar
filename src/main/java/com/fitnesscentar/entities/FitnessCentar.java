@@ -68,4 +68,20 @@ public class FitnessCentar implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public Set<Sala> getSale() {
+        return sale;
+    }
+
+    public void setSale(Set<Sala> sale) {
+        this.sale = sale;
+    }
+
+    public Set<Korisnik> getTreneri() {
+        return treneri;
+    }
+
+    public void setTreneri(Set<Korisnik> treneri) {
+        this.treneri = treneri;
+    }
 }
