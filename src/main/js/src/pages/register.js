@@ -84,7 +84,7 @@ function Register() {
             ></CheckBox>
             <div className='d-flex justify-content-between'>
               <button
-                className='btn btn-dark'
+                className='btn btn-secondary'
                 onClick={() => {
                   history.push('/')
                 }}
