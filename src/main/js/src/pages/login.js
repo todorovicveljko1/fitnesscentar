@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import InputField from '../components/FormElements/InputField'
+import CheckBox from '../components/FormElements/CheckBox'
 import Center from '../components/Layout/Center'
 import Main from '../components/Layout/Main'
 
 function Login() {
   const history = useHistory()
+  const [emailUsername, setEmailUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [zapamtiMe, setZapamtiMe] = useState(false)
   return (
     <Main>
       <Center style={{ minHeight: 'calc(100vh - 56px)' }}>
@@ -14,39 +19,28 @@ function Login() {
         >
           <h2>Prijavi se</h2>
           <form>
-            <div className='mb-3 form-floating'>
-              <input
-                type='text'
-                className='form-control'
-                id='email_username'
-                aria-describedby='emailHelp'
-                placeholder='Email ili korisničko ime'
-              />
-              <label htmlFor='email_username' className='form-label'>
-                Email ili korisničko ime:
-              </label>
-            </div>
-            <div className='mb-3 form-floating'>
-              <input
-                type='password'
-                className='form-control'
-                id='password'
-                placeholder='lozinka'
-              />
-              <label htmlFor='password' className='form-label'>
-                Lozinka:
-              </label>
-            </div>
-            <div className='mb-3 form-check'>
-              <input
-                type='checkbox'
-                className='form-check-input'
-                id='zapanti_me'
-              />
-              <label className='form-check-label' htmlFor='zapmanti_me'>
-                Zapamti me
-              </label>
-            </div>
+            <InputField
+              id='email_username'
+              label='Email ili korisničko ime'
+              variant='floating'
+              value={emailUsername}
+              onChange={setEmailUsername}
+            ></InputField>
+            <InputField
+              type='password'
+              id='password'
+              variant='floating'
+              label='Lozinka'
+              value={password}
+              onChange={setPassword}
+            ></InputField>
+            <CheckBox
+              id='zapanti_me'
+              checked={zapamtiMe}
+              label='Zapamti me'
+              onChange={setZapamtiMe}
+            ></CheckBox>
+
             <div className='d-flex justify-content-between'>
               <button
                 className='btn btn-dark'

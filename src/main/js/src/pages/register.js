@@ -1,10 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router'
+import CheckBox from '../components/FormElements/CheckBox'
+import InputField from '../components/FormElements/InputField'
 import Center from '../components/Layout/Center'
 import Main from '../components/Layout/Main'
 
 function Register() {
   const history = useHistory()
+  const [ime, setIme] = useState('')
+  const [prezime, setPrezime] = useState('')
+  const [korisnickoIme, setKorisnickoIme] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [telefon, setTelefon] = useState('')
+  const [datumRodjenja, setDatumRodjenja] = useState('')
+  const [budiTrener, setBudiTrener] = useState(false)
+
   return (
     <Main>
       <Center style={{ minHeight: 'calc(100vh - 56px)' }}>
@@ -14,75 +25,63 @@ function Register() {
         >
           <h2>Registruj se</h2>
           <form>
-            <div className='form-floating mb-3'>
-              <input
-                type='text'
-                className='form-control'
-                id='ime'
-                placeholder='Ime'
-              />
-              <label htmlFor='ime'>Ime</label>
-            </div>
-            <div className='form-floating mb-3'>
-              <input
-                type='text'
-                className='form-control'
-                id='prezime'
-                placeholder='Prezime'
-              />
-              <label htmlFor='prezime'>Prezime</label>
-            </div>
-            <div className='form-floating mb-3'>
-              <input
-                type='email'
-                className='form-control'
-                id='email'
-                placeholder='name@example.com'
-              />
-              <label htmlFor='email'>Email address</label>
-            </div>
-            <div className='form-floating mb-3'>
-              <input
-                type='text'
-                className='form-control'
-                id='korisnickoIme'
-                placeholder='Korisnicko ime'
-              />
-              <label htmlFor='korisnickoIme'>Korisnicko Ime</label>
-            </div>
-            <div className='form-floating mb-3'>
-              <input
-                type='password'
-                className='form-control'
-                id='password'
-                placeholder='lozinka'
-              />
-              <label htmlFor='password'>Lozinka</label>
-            </div>
-            <div className='form-floating mb-3'>
-              <input
-                type='text'
-                className='form-control'
-                id='telefon'
-                placeholder='Telefon'
-              />
-              <label htmlFor='password'>Telefon</label>
-            </div>
-            <div className='form-floating mb-3'>
-              <input
-                type='date'
-                className='form-control'
-                id='password'
-                placeholder='Datum rođenja'
-              />
-              <label htmlFor='password'>Datum rođenja</label>
-            </div>
-            <div className='mb-3 form-check'>
-              <input type='checkbox' className='form-check-input' id='trener' />
-              <label className='form-check-label' htmlFor='trener'>
-                Registruj se kao trener
-              </label>
-            </div>
+            <InputField
+              id='ime'
+              value={ime}
+              onChange={setIme}
+              variant='floating'
+              label='Ime'
+            ></InputField>
+            <InputField
+              id='prezime'
+              value={prezime}
+              onChange={setPrezime}
+              variant='floating'
+              label='Prezime'
+            ></InputField>
+            <InputField
+              id='korisnickoIme'
+              value={korisnickoIme}
+              onChange={setKorisnickoIme}
+              variant='floating'
+              label='Korisnicko Ime'
+            ></InputField>
+            <InputField
+              id='email'
+              value={email}
+              onChange={setEmail}
+              variant='floating'
+              label='Email'
+            ></InputField>
+            <InputField
+              type='password'
+              id='password'
+              variant='floating'
+              label='Lozinka'
+              value={password}
+              onChange={setPassword}
+            ></InputField>
+            <InputField
+              id='telefon'
+              variant='floating'
+              label='Telefon'
+              value={telefon}
+              onChange={setTelefon}
+            ></InputField>
+            <InputField
+              type='date'
+              id='datumRodjenja'
+              variant='floating'
+              label='Datum rođenja'
+              value={datumRodjenja}
+              onChange={setDatumRodjenja}
+            ></InputField>
+            <CheckBox
+              id='budiTrener'
+              checked={budiTrener}
+              onChange={setBudiTrener}
+              label='Registruj se kao trener'
+            ></CheckBox>
             <div className='d-flex justify-content-between'>
               <button
                 className='btn btn-dark'
