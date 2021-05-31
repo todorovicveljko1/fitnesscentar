@@ -6,6 +6,7 @@ import Main from '../components/Layout/Main'
 
 const Login = loadable(() => import('./login'))
 const Register = loadable(() => import('./register'))
+const Dev = loadable(() => import('./dev'))
 
 function App(props) {
   return (
@@ -17,6 +18,7 @@ function App(props) {
             exact
             render={() => <Main background={false}>FitnessCentar</Main>}
           />
+          <Route path='/dev' exact component={Dev} />
           <Route path='/login' exact component={Login} />
           <Route path='/register' exact component={Register} />
         </Switch>
