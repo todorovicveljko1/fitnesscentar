@@ -4,9 +4,11 @@ import InputField from '../components/FormElements/InputField'
 import CheckBox from '../components/FormElements/CheckBox'
 import Center from '../components/Layout/Center'
 import Main from '../components/Layout/Main'
+import { useAuth } from '../utils/Auth'
 
 function Login() {
   const history = useHistory()
+  const { login } = useAuth()
   const [emailUsername, setEmailUsername] = useState('')
   const [password, setPassword] = useState('')
   const [zapamtiMe, setZapamtiMe] = useState(false)
@@ -50,7 +52,18 @@ function Login() {
               >
                 Otkaži
               </button>
-              <button className='btn btn-primary'>Prijavi se</button>
+              <button
+                className='btn btn-primary'
+                onClick={(e) => {
+                  e.preventDefault()
+                  login(emailUsername, password).then((r) => {
+                    console.log('LOGIN')
+                  })
+                  history.push('/')
+                }}
+              >
+                Prijavi se
+              </button>
             </div>
           </form>
         </div>

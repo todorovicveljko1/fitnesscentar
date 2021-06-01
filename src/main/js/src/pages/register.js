@@ -95,18 +95,6 @@ function Register() {
                 className='btn btn-primary'
                 onClick={(e) => {
                   e.preventDefault()
-                  console.log(
-                    JSON.stringify({
-                      ime,
-                      prezime,
-                      telefon,
-                      korisnickoIme,
-                      lozinka: password,
-                      email,
-                      datumRodjenja,
-                      uloga: budiTrener ? 'TRENER' : 'CLAN',
-                    })
-                  )
                   fetch('http://localhost:8080/api/register', {
                     method: 'POST',
                     mode: 'cors',

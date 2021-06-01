@@ -15,3 +15,22 @@ $bg-body: #f6f6f6;
     rgba(122, 122, 145, 0.6);
   background-size: 22px 22px;
 }
+
+@mixin background-gradient {
+  background-image: linear-gradient(90deg, #ddd 0px, #e3e3e3 40px, #ddd 80px);
+  background-size: 600px;
+}
+.skeleton {
+  @include background-gradient();
+  animation: shine-lines 1500ms;
+}
+
+@keyframes shine-lines {
+  0% {
+    background-position: -100px;
+  }
+  40%,
+  100% {
+    background-position: 140px;
+  }
+}

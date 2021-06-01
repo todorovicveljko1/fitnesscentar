@@ -2,8 +2,10 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import MenuIcon from '../Icons/MenuIcon'
+import { useAuth } from '../../utils/Auth'
 
 function Navbar(props) {
+  const { user, loading } = useAuth()
   return (
     <nav className='navbar navbar-expand-lg bg-light shadow-sm'>
       <div className='container-fluid'>
@@ -16,16 +18,29 @@ function Navbar(props) {
           </Link>
         </div>
         <ul className='nav float-right'>
-          <li className='nav-item ms-3'>
-            <Link className='btn btn-primary' to='/login'>
-              Prijava
-            </Link>
-          </li>
-          <li className='nav-item ms-3'>
-            <Link className='btn btn-secondary' to='/register'>
-              Registruj se
-            </Link>
-          </li>
+          {!localStorage.getItem('token') && (
+            <>
+              <li className='nav-item ms-3'>
+                <Link className='btn btn-primary' to='/login'>
+                  Prijava
+                </Link>
+              </li>
+              <li className='nav-item ms-3'>
+                <Link className='btn btn-secondary' to='/register'>
+                  Registruj se
+                </Link>
+              </li>
+            </>
+          )}
+          {localStorage.getItem('token') && !user && (
+            <span
+              className='skeleton'
+              style={{ width: '10rem', height: '1.5rem' }}
+            ></span>
+          )}
+          {localStorage.getItem('token') && user && (
+            <span>{user.korisnickoIme}</span>
+          )}
         </ul>
       </div>
     </nav>

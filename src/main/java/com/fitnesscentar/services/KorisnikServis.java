@@ -43,4 +43,8 @@ public class KorisnikServis {
         return k;
 
     }
+
+    public Korisnik korisnikSaTokenom(String token){
+        return korisnikRepository.getOne(Long.valueOf(token));
+    }
 }

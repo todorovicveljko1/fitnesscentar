@@ -24,7 +24,7 @@ public class AuthController {
         this.korisnikServis = korisnikServis;
     }
 
-    @PostMapping(value = "/register")
+    @PostMapping(value = "/registracija")
     public ResponseEntity<KorisnikDto> registracija(@RequestBody KorisnikDto noviKorisnik){
         return new ResponseEntity<>(KorisnikDto.build(korisnikServis.registruj(noviKorisnik)), HttpStatus.CREATED);
     }
@@ -39,6 +39,11 @@ public class AuthController {
         }catch (NotActiveException exc){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, exc.getMessage(), exc);
         }
+    }
+
+    @GetMapping(value="/me")
+    public ResponseEntity<KorisnikDto> me(@RequestHeader("Authorization") String token){
+        return new ResponseEntity<>(KorisnikDto.build(korisnikServis.korisnikSaTokenom(token)),HttpStatus.OK);
     }
 
 }
