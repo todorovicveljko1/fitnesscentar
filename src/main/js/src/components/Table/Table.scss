@@ -1,0 +1,30 @@
+.table-root {
+  width: 100%;
+  display: table;
+  border-spacing: 0;
+  border-collapse: collapse;
+  thead {
+    display: table-header-group;
+    tr {
+      color: inherit;
+      display: table-row;
+      outline: 0;
+      vertical-align: middle;
+    }
+  }
+  .table-cell {
+    border-bottom: 1px solid rgba(224, 224, 224, 1);
+    display: table-cell;
+    padding: 0.75rem;
+    text-align: left;
+    vertical-align: inherit;
+  }
+  .table-cell-head {
+    color: rgba(0, 0, 0, 0.87);
+    font-weight: 600;
+    line-height: 1.5rem;
+  }
+  .table-cell-right {
+    text-align: right;
+  }
+}

@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
   const register = () => {}
   const logout = () => {
     setLoading(true)
-    setUser({})
+    setUser(null)
     localStorage.removeItem('token')
     setLoading(false)
   }

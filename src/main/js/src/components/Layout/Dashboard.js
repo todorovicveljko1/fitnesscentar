@@ -10,7 +10,7 @@ function Dashboard(props) {
       <Navbar onSideBarButtonClick={() => setSidebarOpen(!sidebarOpen)} />
       <div className={'d-flex no-wrap'}>
         <Sidebar open={sidebarOpen} />
-        <div className={'w-100 p-3'}>{props.children}</div>
+        <div className={'w-100 p-4'}>{props.children}</div>
       </div>
     </div>
   )

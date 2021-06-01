@@ -1,0 +1,9 @@
+.paper {
+  border-radius: 0.75rem;
+}
+
+@for $i from 0 through 6 {
+  .elevation-#{$i} {
+    box-shadow: 0 0.025rem * $i 0.05rem * $i rgba(0, 0, 0, 0.15 * ($i/2));
+  }
+}
