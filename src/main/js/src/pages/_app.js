@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import loadable from '@loadable/component'
 import Main from '../components/Layout/Main'
 import { AuthProvider } from '../utils/Auth'
+import { AdminRoute, GuestOnlyRoute } from '../utils/Route'
 
 const Login = loadable(() => import('./login'))
 const Register = loadable(() => import('./register'))
@@ -20,9 +21,9 @@ function App(props) {
               exact
               render={() => <Main background={false}>FitnessCentar</Main>}
             />
-            <Route path='/dev' exact component={Dev} />
-            <Route path='/login' exact component={Login} />
-            <Route path='/register' exact component={Register} />
+            <AdminRoute path='/dev' exact component={Dev} />
+            <GuestOnlyRoute path='/login' exact component={Login} />
+            <GuestOnlyRoute path='/register' exact component={Register} />
           </Switch>
         </Suspense>
       </Router>

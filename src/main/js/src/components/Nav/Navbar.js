@@ -5,7 +5,7 @@ import MenuIcon from '../Icons/MenuIcon'
 import { useAuth } from '../../utils/Auth'
 
 function Navbar(props) {
-  const { user, loading } = useAuth()
+  const { user, loading, logout } = useAuth()
   return (
     <nav className='navbar navbar-expand-lg bg-light shadow-sm'>
       <div className='container-fluid'>
@@ -35,11 +35,19 @@ function Navbar(props) {
           {localStorage.getItem('token') && !user && (
             <span
               className='skeleton'
-              style={{ width: '10rem', height: '1.5rem' }}
+              style={{ width: '12rem', height: '1.5rem' }}
             ></span>
           )}
           {localStorage.getItem('token') && user && (
-            <span>{user.korisnickoIme}</span>
+            <div className='d-flex  justify-content-center align-items-baseline'>
+              <span className='pe-1'>{user.korisnickoIme} </span>
+              <span style={{ fontSize: '0.75rem', color: 'var(--bs-gray)' }}>
+                ({user.email})
+              </span>
+              <button className='btn btn-light' onClick={logout}>
+                Odjavi se
+              </button>
+            </div>
           )}
         </ul>
       </div>

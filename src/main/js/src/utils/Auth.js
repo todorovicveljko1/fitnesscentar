@@ -4,7 +4,8 @@ export const authContext = createContext({})
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
+  // Ako imamo token cekamo da se korisnik ucita ako nemamo nista ne cekamo
+  const [loading, setLoading] = useState(!!localStorage.getItem('token'))
   useEffect(() => {
     if (localStorage.getItem('token') && !user) {
       setLoading(true)
@@ -44,9 +45,14 @@ export const AuthProvider = ({ children }) => {
       .catch((err) => console.log(err))
   }
   const register = () => {}
-  const logout = () => {}
+  const logout = () => {
+    setLoading(true)
+    setUser({})
+    localStorage.removeItem('token')
+    setLoading(false)
+  }
   return (
-    <authContext.Provider value={{ user, loading, login }}>
+    <authContext.Provider value={{ user, loading, login, logout }}>
       {children}
     </authContext.Provider>
   )
