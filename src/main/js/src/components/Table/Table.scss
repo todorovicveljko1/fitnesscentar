@@ -12,6 +12,13 @@
       vertical-align: middle;
     }
   }
+  tbody {
+    tr {
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.04);
+      }
+    }
+  }
   .table-cell {
     border-bottom: 1px solid rgba(224, 224, 224, 1);
     display: table-cell;
