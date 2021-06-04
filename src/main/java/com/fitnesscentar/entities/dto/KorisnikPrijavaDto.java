@@ -1,14 +1,14 @@
 package com.fitnesscentar.entities.dto;
 
 public class KorisnikPrijavaDto {
-    private String korisnickoImeIliEmail;
+    private String korisnickoIme;
     private String lozika;
-    public String getKorisnickoImeIliEmail() {
-        return korisnickoImeIliEmail;
+    public String getKorisnickoIme() {
+        return korisnickoIme;
     }
 
     public void setKorisnickoImeIliEmail(String korisnickoImeIliEmail) {
-        this.korisnickoImeIliEmail = korisnickoImeIliEmail;
+        this.korisnickoIme = korisnickoImeIliEmail;
     }
 
     public String getLozika() {

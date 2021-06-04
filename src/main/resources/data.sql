@@ -2,12 +2,12 @@ INSERT INTO `fitness_centar` (`adresa`, `email`, `naziv`, `telefon`) VALUES
 ('Dositeja 6', 'ftn@fitnesscentar.comm', 'FTN', '0651212123');
 
 INSERT INTO `korisnik` (`aktivan`, `datum_rodjenja`, `email`, `ime`, `korisnicko_ime`, `lozinka`, `prezime`, `telefon`, `uloga`, `fitness_centar_id`) VALUES
-('1', NULL, 'admin@fitnesscentar.com', 'Admin', 'admin', 'secret', NULL, NULL, 'ADMIN',NULL),
-('1', NULL, 'petar@fitnesscentar.com', 'Petar', 'pera', 'secret', 'Perić', NULL, 'TRENER', 1),
-('1', NULL, 'todorovicveljko1@gmail.com', 'Veljko', 'veljo', 'secret', 'Todorović', NULL, 'CLAN', NULL),
-('1', NULL, 'aleksa@gmail.com', 'Aleksa', 'aleksa', 'secret', 'Aleksić', NULL, 'CLAN', NULL),
-('1', NULL, 'mika@gmail.com', 'Mika', 'mika', 'secret', 'Mikić', NULL, 'CLAN', NULL),
-('1', NULL, 'milivoye1@gmail.com', 'Milivoje', 'miljko', 'secret', 'Milovojvić', NULL, 'CLAN', NULL);
+('1', NULL, 'admin@fitnesscentar.com', 'Admin', 'admin', '$2a$10$MF7hYnWLeLT66gNccBgxaONZHbrSMjlUofkp50sSpBw2PJjUqU.zS', NULL, NULL, 'ADMIN',NULL),
+('1', NULL, 'petar@fitnesscentar.com', 'Petar', 'pera', '$2a$10$MF7hYnWLeLT66gNccBgxaONZHbrSMjlUofkp50sSpBw2PJjUqU.zS', 'Perić', NULL, 'TRENER', 1),
+('1', NULL, 'todorovicveljko1@gmail.com', 'Veljko', 'veljo', '$2a$10$MF7hYnWLeLT66gNccBgxaONZHbrSMjlUofkp50sSpBw2PJjUqU.zS', 'Todorović', NULL, 'CLAN', NULL),
+('1', NULL, 'aleksa@gmail.com', 'Aleksa', 'aleksa', '$2a$10$MF7hYnWLeLT66gNccBgxaONZHbrSMjlUofkp50sSpBw2PJjUqU.zS', 'Aleksić', NULL, 'CLAN', NULL),
+('1', NULL, 'mika@gmail.com', 'Mika', 'mika', '$2a$10$MF7hYnWLeLT66gNccBgxaONZHbrSMjlUofkp50sSpBw2PJjUqU.zS', 'Mikić', NULL, 'CLAN', NULL),
+('1', NULL, 'milivoye1@gmail.com', 'Milivoje', 'miljko', '$2a$10$MF7hYnWLeLT66gNccBgxaONZHbrSMjlUofkp50sSpBw2PJjUqU.zS', 'Milovojvić', NULL, 'CLAN', NULL);
 
 INSERT INTO `sala` (`kapacitet`, `oznaka`, `fitness_centar_id`) VALUES
 ('20', 'A1', '1'),
