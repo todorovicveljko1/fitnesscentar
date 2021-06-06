@@ -9,7 +9,7 @@ import { useAuth } from '../utils/Auth'
 function Login() {
   const history = useHistory()
   const { login } = useAuth()
-  const [emailUsername, setEmailUsername] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [zapamtiMe, setZapamtiMe] = useState(false)
   return (
@@ -23,10 +23,10 @@ function Login() {
           <form>
             <InputField
               id='email_username'
-              label='Email ili korisničko ime'
+              label='Korisničko ime'
               variant='floating'
-              value={emailUsername}
-              onChange={setEmailUsername}
+              value={username}
+              onChange={setUsername}
             ></InputField>
             <InputField
               type='password'
@@ -36,13 +36,6 @@ function Login() {
               value={password}
               onChange={setPassword}
             ></InputField>
-            <CheckBox
-              id='zapanti_me'
-              checked={zapamtiMe}
-              label='Zapamti me'
-              onChange={setZapamtiMe}
-            ></CheckBox>
-
             <div className='d-flex justify-content-between'>
               <button
                 className='btn btn-secondary'
@@ -56,7 +49,7 @@ function Login() {
                 className='btn btn-primary'
                 onClick={(e) => {
                   e.preventDefault()
-                  login(emailUsername, password).then((r) => {
+                  login(username, password).then((r) => {
                     console.log('LOGIN')
                   })
                   history.push('/')

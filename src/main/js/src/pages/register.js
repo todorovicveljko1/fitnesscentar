@@ -4,9 +4,11 @@ import CheckBox from '../components/FormElements/CheckBox'
 import InputField from '../components/FormElements/InputField'
 import Center from '../components/Layout/Center'
 import Main from '../components/Layout/Main'
+import { useAuth } from '../utils/Auth'
 
 function Register() {
   const history = useHistory()
+  const { register } = useAuth()
   const [ime, setIme] = useState('')
   const [prezime, setPrezime] = useState('')
   const [korisnickoIme, setKorisnickoIme] = useState('')
@@ -95,31 +97,19 @@ function Register() {
                 className='btn btn-primary'
                 onClick={(e) => {
                   e.preventDefault()
-                  fetch('http://localhost:8080/api/register', {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: {
-                      'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                      ime,
-                      prezime,
-                      telefon,
-                      korisnickoIme,
-                      lozinka: password,
-                      email,
-                      datumRodjenja,
-                      uloga: budiTrener ? 'TRENER' : 'CLAN',
-                    }),
+                  register({
+                    ime,
+                    prezime,
+                    telefon,
+                    korisnickoIme,
+                    lozinka: password,
+                    email,
+                    datumRodjenja,
+                    uloga: budiTrener ? 'TRENER' : 'CLAN',
+                  }).then((data) => {
+                    console.log(data)
+                    history.push('/login')
                   })
-                    .then((res) => {
-                      console.log(res)
-                      return res.json()
-                    })
-                    .then((json) => {
-                      console.log(json)
-                    })
-                    .catch((e) => console.log(e))
                 }}
               >
                 {' '}

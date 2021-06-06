@@ -24,7 +24,11 @@ const rowActions = [
 
 function dev() {
   const { isLoading, error, data } = useQuery('fitnessCentar', () =>
-    fetch('http://localhost:8080/api/fitnesscentar').then((res) => res.json())
+    fetch('http://localhost:8080/api/fitnesscentar', {
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
+    }).then((res) => res.json())
   )
   return (
     <Dashboard>
