@@ -1,5 +1,7 @@
 package com.fitnesscentar.entities;
 
+import com.fitnesscentar.entities.dto.TreningDto;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -65,5 +67,12 @@ public class Trening implements Serializable {
 
     public void setTrajanje(int trajanje) {
         this.trajanje = trajanje;
+    }
+
+    public void fill(TreningDto treningDto){
+        this.setNaziv(treningDto.getNaziv());
+        this.setOpis(treningDto.getOpis());
+        this.setTipTreninga(treningDto.getTipTreninga());
+        this.setTrajanje(treningDto.getTrajanje());
     }
 }

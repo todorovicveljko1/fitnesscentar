@@ -52,7 +52,7 @@ public class Korisnik implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "termin_id", referencedColumnName = "id"))
     private Set<Termin> prijavljeniTermini = new HashSet<>();
     public void fill(KorisnikDto korisnik){
-        this.setId(korisnik.getId());
+        //this.setId(korisnik.getId());
         this.setKorisnickoIme(korisnik.getKorisnickoIme());
         this.setLozinka(korisnik.getLozinka());
         this.setIme(korisnik.getIme());
