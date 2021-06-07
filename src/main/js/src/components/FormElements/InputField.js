@@ -13,6 +13,8 @@ function InputField(props) {
     className = '',
     variant = 'classic',
     disabled = false,
+    lableClass = '',
+    inputClass = '',
   } = props
   const floating = variant == 'floating' ? 'form-floating' : ''
   const inline = variant == 'inline' ? 'row' : ''
@@ -20,7 +22,7 @@ function InputField(props) {
   return (
     <div className={`mb-3 ${floating} ${inline} ${className}`}>
       {!floating && (
-        <label htmlFor={id} className='form-label'>
+        <label htmlFor={id} className={`form-label ${lableClass}`}>
           {label}
         </label>
       )}
@@ -28,14 +30,14 @@ function InputField(props) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         type={type}
-        className={`form-control ${error ? 'is-invalid' : ''}`}
+        className={`form-control ${error ? 'is-invalid' : ''} ${inputClass}`}
         id={id}
         placeholder={floating ? label : placeholder}
         disabled={disabled}
       />
       {error && <div class='invalid-feedback'>{error}</div>}
       {floating && (
-        <label htmlFor={id} className='form-label'>
+        <label htmlFor={id} className={`form-label ${lableClass}`}>
           {label}
         </label>
       )}
@@ -45,6 +47,8 @@ function InputField(props) {
 
 InputField.propTypes = {
   className: PropTypes.string,
+  lableClass: PropTypes.string,
+  inputClass: PropTypes.string,
   value: PropTypes.string,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,

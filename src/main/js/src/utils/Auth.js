@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
         .then((json) => {
           setUser(json)
           setLoading(false)
+          return json
         })
         .catch((err) => console.log(err))
     }
@@ -49,6 +50,7 @@ export const AuthProvider = ({ children }) => {
           .then((json) => {
             setUser(json)
             setLoading(false)
+            return json
           })
           .catch((err) => console.log(err))
       })

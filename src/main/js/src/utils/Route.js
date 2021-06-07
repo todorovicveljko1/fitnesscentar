@@ -47,4 +47,16 @@ export function GuestOnlyRoute({ component: Component, ...rest }) {
       <Route {...rest} render={(props) => <Component {...rest} {...props} />} />
     )
   history.goBack()
+  return <span>Tranzicija</span>
+}
+
+export function ProtectedRoute({ component: Component, ...rest }) {
+  const { user, loading } = useAuth()
+  const history = useHistory()
+  if (loading) return <span>Loading...</span>
+  if (user)
+    return (
+      <Route {...rest} render={(props) => <Component {...rest} {...props} />} />
+    )
+  return <Redirect to='/login'></Redirect>
 }

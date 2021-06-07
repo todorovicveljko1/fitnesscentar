@@ -1,4 +1,5 @@
-import 'bootstrap'
+import * as bootstrap from 'bootstrap'
+window.bootstrap = bootstrap
 import React from 'react'
 import ReactDom from 'react-dom'
 import './index.scss'
