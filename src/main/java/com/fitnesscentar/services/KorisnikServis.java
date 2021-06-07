@@ -1,5 +1,6 @@
 package com.fitnesscentar.services;
 
+import com.fitnesscentar.entities.FitnessCentar;
 import com.fitnesscentar.entities.Korisnik;
 import com.fitnesscentar.entities.Uloga;
 import com.fitnesscentar.entities.dto.KorisnikDto;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.io.NotActiveException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -73,5 +75,17 @@ public class KorisnikServis {
         return new org.springframework.security.core.userdetails.User(k.getKorisnickoIme(), k.getLozinka(), k.isAktivan(),
                 true, true, true,authorities);
 
+    }
+    public Korisnik getOne(Long id) throws EntityNotFoundException {
+        Optional<Korisnik> optionalKorisnik = korisnikRepository.findById(id);
+        if(optionalKorisnik.isPresent())
+            return optionalKorisnik.get();
+        throw new EntityNotFoundException();
+    }
+
+    public Korisnik updateKorisnik(Long id, KorisnikDto korisnikDto) throws EntityNotFoundException {
+        Korisnik k = this.getOne(id);
+        k.fill(korisnikDto);
+        return  k;
     }
 }

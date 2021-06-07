@@ -5,6 +5,7 @@ import Dashboard from '../../components/Layout/Dashboard'
 import loadable from '@loadable/component'
 
 const FitnessCentri = loadable(() => import('./fitnesscentri/index'))
+const TreneriPotvrdi = loadable(() => import('./treneri/potvrdi'))
 
 function Register() {
   const history = useHistory()
@@ -19,6 +20,11 @@ function Register() {
             path={`${path}/fitnesscentri`}
             exact
             component={FitnessCentri}
+          />
+          <Route
+            path={`${path}/treneri/potvrdi`}
+            exact
+            component={TreneriPotvrdi}
           />
         </Switch>
       </Suspense>
