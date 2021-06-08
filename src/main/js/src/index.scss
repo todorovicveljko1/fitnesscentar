@@ -34,3 +34,28 @@ $bg-body: #f6f6f6;
     background-position: 140px;
   }
 }
+
+.apploadbar {
+  position: fixed;
+  height: 2px;
+  width: 100vw;
+  background-color: #ddd;
+  z-index: 1000;
+  .apploadbar_line {
+    height: 2px;
+    width: 0;
+    background-color: $primary;
+  }
+  .loadanimation {
+    animation: load-line-in 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
+
+@keyframes load-line-in {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}

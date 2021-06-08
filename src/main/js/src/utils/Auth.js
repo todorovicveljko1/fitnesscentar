@@ -81,8 +81,13 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('token')
     setLoading(false)
   }
+  const hasRole = (uloga) => {
+    return !loading && user && user.uloga == uloga
+  }
   return (
-    <authContext.Provider value={{ user, loading, login, logout, register }}>
+    <authContext.Provider
+      value={{ user, loading, login, logout, register, hasRole }}
+    >
       {children}
     </authContext.Provider>
   )

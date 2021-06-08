@@ -50,7 +50,7 @@ function dev() {
       </div>
       {isLoading && <span>Loading...</span>}
       {!isLoading && error && <span>Error</span>}
-      {!isLoading && !error && data.length && (
+      {!isLoading && !error && !!data.length && (
         <Table
           data={data}
           columns={columns}

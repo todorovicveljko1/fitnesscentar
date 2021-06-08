@@ -75,4 +75,20 @@ public class Trening implements Serializable {
         this.setTipTreninga(treningDto.getTipTreninga());
         this.setTrajanje(treningDto.getTrajanje());
     }
+
+    public Korisnik getTrener() {
+        return trener;
+    }
+
+    public void setTrener(Korisnik trener) {
+        this.trener = trener;
+    }
+
+    public Set<Termin> getTermini() {
+        return termini;
+    }
+
+    public void setTermini(Set<Termin> termini) {
+        this.termini = termini;
+    }
 }

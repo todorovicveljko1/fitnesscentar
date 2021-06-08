@@ -51,30 +51,32 @@ function dev() {
   )
   return (
     <Paper>
-      <div className='d-flex justify-content-between p-2 mx-1 pt-3'>
-        <span className='fs-5 fw-bold '>Fitness Centri</span>
-        <div>
-          <button
-            className='btn btn-primary'
-            data-bs-toggle='modal'
-            data-bs-target='#fitnessCentarModal'
-            onClick={() => {
-              setMode('CREATE')
-            }}
-          >
-            Dodaj
-          </button>
-        </div>
-      </div>
       {isLoading && <span>Loading...</span>}
-      {!isLoading && error && <span>Error</span>}
-      {!isLoading && !error && (
-        <Table
-          data={data}
-          columns={columns}
-          title='Fitness Centar'
-          rowActions={rowActions}
-        />
+      {!isLoading && (error || data.error) && <span>{data.message}</span>}
+      {!isLoading && !(error || data.error) && (
+        <>
+          <div className='d-flex justify-content-between p-2 mx-1 pt-3'>
+            <span className='fs-5 fw-bold '>Fitness Centri</span>
+            <div>
+              <button
+                className='btn btn-primary'
+                data-bs-toggle='modal'
+                data-bs-target='#fitnessCentarModal'
+                onClick={() => {
+                  setMode('CREATE')
+                }}
+              >
+                Dodaj
+              </button>
+            </div>
+          </div>
+          <Table
+            data={data}
+            columns={columns}
+            title='Fitness Centar'
+            rowActions={rowActions}
+          />
+        </>
       )}
       <FitnessCentarModal data={editing} mode={mode} />
     </Paper>

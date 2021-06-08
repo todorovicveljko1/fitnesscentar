@@ -1,19 +1,21 @@
 package com.fitnesscentar.controllers;
 
-import com.fitnesscentar.entities.FitnessCentar;
 import com.fitnesscentar.entities.Trening;
-import com.fitnesscentar.entities.dto.FitnessCentarDto;
 import com.fitnesscentar.entities.dto.TreningDto;
-import com.fitnesscentar.services.FitnessCentarService;
+import com.fitnesscentar.entities.dto.TreningTerminDto;
 import com.fitnesscentar.services.TreningService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -29,7 +31,7 @@ public class TreningController {
 
 
     @GetMapping
-    public ResponseEntity<List<TreningDto>> getAllFitnessCentar(){
+    public ResponseEntity<List<TreningDto>> getAllTrening(){
         List<TreningDto> treningDtos = new ArrayList<>();
         for(Trening trening: treningService.getAll()){
             treningDtos.add(TreningDto.build(trening));
@@ -37,8 +39,36 @@ public class TreningController {
         return new ResponseEntity<>(treningDtos, HttpStatus.OK);
     }
 
+    @GetMapping(value="/termini")
+    public ResponseEntity<List<TreningTerminDto>> getAllTreningTermini(){
+        List<TreningTerminDto> treningTerminDtos = new ArrayList<>();
+        for(Trening trening: treningService.getAll()){
+            treningTerminDtos.add(TreningTerminDto.build(trening));
+        }
+
+        return new ResponseEntity<>(treningTerminDtos, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/search")
+    public ResponseEntity<List<TreningTerminDto>> search(
+            @RequestParam(defaultValue = "") String naziv,
+            @RequestParam(defaultValue = "") String opis,
+            @RequestParam(defaultValue = "") String tip,
+            @RequestParam(defaultValue = "0") double cena,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-DD") Date vremePocetka,
+            @RequestParam(defaultValue = "") String orderBy,
+            @RequestParam(defaultValue = "") String direction){
+        List<TreningTerminDto> treningTerminDtos = new ArrayList<>();
+        List<Trening> t = treningService.search(naziv, opis, tip, cena, vremePocetka, orderBy,direction);
+        for(Trening trening: t){
+            treningTerminDtos.add(TreningTerminDto.build(trening));
+        }
+
+        return new ResponseEntity<>(treningTerminDtos, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/{id}")
-    public ResponseEntity<TreningDto> getFitnessCentar(@PathVariable Long id) throws EntityNotFoundException {
+    public ResponseEntity<TreningDto> getTrening(@PathVariable Long id) throws EntityNotFoundException {
         try{
             return new ResponseEntity<>(TreningDto.build(treningService.getOne(id)), HttpStatus.OK);
         }catch (EntityNotFoundException exc){
@@ -47,12 +77,12 @@ public class TreningController {
     }
 
     @PostMapping
-    public ResponseEntity<TreningDto> createFitnessCentar(@RequestBody TreningDto treningDto){
+    public ResponseEntity<TreningDto> createTrening(@RequestBody TreningDto treningDto){
         return new ResponseEntity<>(TreningDto.build(treningService.create(treningDto)), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<TreningDto> updateFitnessCentar(@PathVariable Long id, @RequestBody TreningDto treningDto) throws EntityNotFoundException{
+    public ResponseEntity<TreningDto> updateTrening(@PathVariable Long id, @RequestBody TreningDto treningDto) throws EntityNotFoundException{
         try{
             return new ResponseEntity<>(TreningDto.build(treningService.update(id, treningDto)), HttpStatus.OK);
         }catch (EntityNotFoundException exc){
@@ -61,7 +91,7 @@ public class TreningController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity deleteFitnessCentar(@PathVariable Long id){
+    public ResponseEntity deleteTrening(@PathVariable Long id){
         treningService.deleteById(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
