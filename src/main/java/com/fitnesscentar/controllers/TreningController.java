@@ -1,5 +1,6 @@
 package com.fitnesscentar.controllers;
 
+import com.fitnesscentar.entities.Termin;
 import com.fitnesscentar.entities.Trening;
 import com.fitnesscentar.entities.dto.TreningDto;
 import com.fitnesscentar.entities.dto.TreningTerminDto;
@@ -43,7 +44,8 @@ public class TreningController {
     public ResponseEntity<List<TreningTerminDto>> getAllTreningTermini(){
         List<TreningTerminDto> treningTerminDtos = new ArrayList<>();
         for(Trening trening: treningService.getAll()){
-            treningTerminDtos.add(TreningTerminDto.build(trening));
+            for(Termin termin: trening.getTermini())
+            treningTerminDtos.add(TreningTerminDto.build(termin));
         }
 
         return new ResponseEntity<>(treningTerminDtos, HttpStatus.OK);
@@ -55,13 +57,13 @@ public class TreningController {
             @RequestParam(defaultValue = "") String opis,
             @RequestParam(defaultValue = "") String tip,
             @RequestParam(defaultValue = "0") double cena,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-DD") Date vremePocetka,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date vremePocetka,
             @RequestParam(defaultValue = "") String orderBy,
             @RequestParam(defaultValue = "") String direction){
         List<TreningTerminDto> treningTerminDtos = new ArrayList<>();
-        List<Trening> t = treningService.search(naziv, opis, tip, cena, vremePocetka, orderBy,direction);
-        for(Trening trening: t){
-            treningTerminDtos.add(TreningTerminDto.build(trening));
+        List<Termin> t = treningService.search(naziv, opis, tip, cena, vremePocetka, orderBy,direction);
+        for(Termin termin: t){
+            treningTerminDtos.add(TreningTerminDto.build(termin));
         }
 
         return new ResponseEntity<>(treningTerminDtos, HttpStatus.OK);

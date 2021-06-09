@@ -1,9 +1,6 @@
 package com.fitnesscentar.services;
 
-import com.fitnesscentar.entities.FitnessCentar;
-import com.fitnesscentar.entities.Sala;
-import com.fitnesscentar.entities.Termin;
-import com.fitnesscentar.entities.Trening;
+import com.fitnesscentar.entities.*;
 import com.fitnesscentar.entities.dto.FitnessCentarDto;
 import com.fitnesscentar.entities.dto.TreningDto;
 import com.fitnesscentar.repositories.FitnessCentarRepository;
@@ -11,8 +8,10 @@ import com.fitnesscentar.repositories.TreningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.Date;
 import java.util.List;
@@ -57,39 +56,46 @@ public class TreningService {
         }
     }
 
-    public List<Trening> search(String naziv, String opis, String tip, double cena,Date vremePocetka, String orderBy, String direction){
+    public List<Termin> search(String naziv, String opis, String tip, double cena,Date vremePocetka, String orderBy, String direction){
 
-        System.out.println(vremePocetka);
-        return treningRepository.findAll();//ByNazivContainingAndOpisContainingAndTerminiCenaLessThanEqualTerminiVremePocetkaGreaterThanEqual(naziv, opis, cena, vremePocetka);
-        /*CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Trening> query = builder.createQuery(Trening.class);
+        EntityGraph entityGraph = em.createEntityGraph(Termin.class);
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Termin> query = builder.createQuery(Termin.class);
 
-        Root<Trening> root= query.from(Trening.class);
+        Root<Termin> root= query.from(Termin.class);
 
-        Predicate byNaziv = builder.like(root.get("naziv"), "%"+naziv+"%");
-        Predicate byOpis = builder.like(root.get("opis"), "%"+opis+"%");
-        Predicate byTip = builder.like(root.get("tipTreninga"), "%"+tip+"%");
+        Join<Trening, Termin> trening = root.join("trening");
+        //Join<Trening, Korisnik> trener = trening.join("trener");
+        Join<Sala, Termin> sala = root.join("sala");
+        //Join<Sala, FitnessCentar> fc = sala.join("fitnessCentar");
 
-        Join<Trening, Termin> termini = root.join("termini");
-        System.out.println(cena);
-        if(cena > 0) {
-            Predicate byCena = builder.lessThanOrEqualTo(termini.get("cena"), cena);
-            query.where(byCena);
+
+        Predicate byNaziv = builder.like(trening.get("naziv"), "%"+naziv+"%");
+        Predicate byOpis = builder.like(trening.get("opis"), "%"+opis+"%");
+        Predicate byTip = builder.like(trening.get("tipTreninga"), "%"+tip+"%");
+        Predicate preWhere = builder.and(byNaziv, byOpis, byTip);
+
+        if(cena!=0){
+            Predicate byCenaLess = builder.lessThanOrEqualTo(root.get("cena"), cena);
+            preWhere = builder.and(preWhere, byCenaLess);
         }
-        if(!vremePocetka.equals("")){
-            Predicate byDatum = builder.lessThanOrEqualTo(termini.get("vremePocetak"),new Date(vremePocetka));
-            query.where(byDatum);
+        if(vremePocetka != null){
+            Predicate byDatum = builder.greaterThanOrEqualTo(root.get("vremePocetak"),vremePocetka);
+            preWhere = builder.and(preWhere, byDatum);
         }
-        query.where(builder.and(byNaziv, byOpis, byTip));
-        if(direction == "asc") {
-            Order order = builder.asc(termini.get(orderBy));
-            query.orderBy(order);
-        }else if(direction == "desc"){
-            Order order = builder.desc(termini.get(orderBy));
-            query.orderBy(order);
+
+        query.where(preWhere);
+
+        if(direction.equals("asc")) {
+            query.orderBy(builder.asc(root.get(orderBy)));
+        }else if(direction.equals("desc")){
+            query.orderBy(builder.desc(root.get(orderBy)));
         }
-        query.distinct(true);
-        return em.createQuery(query.select(root)).getResultList();*/
+        TypedQuery<Termin> terminQuery = em.createQuery(query);
+        entityGraph.addAttributeNodes("trening");
+        entityGraph.addAttributeNodes("sala");
+        terminQuery.setHint("javax.persistence.fetchgraph", entityGraph);
+        return terminQuery.getResultList();
     }
 
 }

@@ -18,8 +18,8 @@ public class Termin implements Serializable {
     @Column
     private double cena;
 
-    @Formula("SELECT COUNT(*) FROM termin t, prijavljeni p WHERE t.id = p.termin_id")
-    //@Transient
+    //@Formula("SELECT COUNT(*) FROM termin t, prijavljeni p WHERE t.id = p.termin_id")
+    @Column
     private int brojPrijavljenih;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 function TableBody(props) {
   const { columns, data, rowActions } = props
+
   return (
     <tbody>
       {data.map((row) => {
@@ -12,9 +13,21 @@ function TableBody(props) {
               return (
                 <td
                   className={`table-cell ${column.right && 'table-cell-right'}`}
-                  key={row['id'] + '_' + column.key}
+                  key={
+                    row['id'] +
+                    '_' +
+                    (Array.isArray(column.key)
+                      ? column.key.join('_')
+                      : column.key)
+                  }
                 >
-                  {row[column.key]}
+                  {Array.isArray(column.key)
+                    ? column.wrapper
+                      ? column.wrapper(column.key.map((k) => row[k]))
+                      : column.key.map((k) => row[k]).join(' ')
+                    : column.wrapper
+                    ? column.wrapper(row[column.key])
+                    : row[column.key]}
                 </td>
               )
             })}
@@ -45,6 +58,7 @@ TableBody.propsType = {
       key: PropTypes.string,
       lable: PropTypes.string,
       right: PropTypes.bool,
+      wrapper: PropTypes.func,
     })
   ),
   data: PropTypes.array,

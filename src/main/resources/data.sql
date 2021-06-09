@@ -18,11 +18,11 @@ INSERT INTO `trening` (`naziv`, `opis`, `tip_treninga`, `trajanje`, `trener_id`)
 ('Individualni', 'Opis treninga ', 'Individualni', '90', '2'),
 ('Jos neki trening', 'Opis jos nekog treninga treninga ', 'Individualni', '60', '2');
 
-INSERT INTO `termin` (`cena`, `vreme_pocetak`, `sala_id`, `trening_id`) VALUES
-('150', '2021-05-10 12:00:00.000000', '1', '1'),
-('200', '2021-05-19 12:00:00.000000', '1', '1'),
-('250', '2021-05-16 12:00:00.000000', '2', '2'),
-('150', '2021-05-16 14:00:00.000000', '2', '3');
+INSERT INTO `termin` (`cena`, `vreme_pocetak`, `sala_id`, `trening_id`, `broj_prijavljenih`) VALUES
+('150', '2021-05-10 12:00:00.000000', '1', '1', '0'),
+('200', '2021-05-19 12:00:00.000000', '1', '1', '0'),
+('250', '2021-05-16 12:00:00.000000', '2', '2', '0'),
+('150', '2021-05-16 14:00:00.000000', '2', '3', '0');
 
 INSERT INTO `korisnik_termin` (`ocena`, `clan_id`, `termin_id`) VALUES
 ('4', '2', '1'),

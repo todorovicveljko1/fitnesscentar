@@ -1,19 +1,67 @@
 package com.fitnesscentar.entities.dto;
 
 
+import com.fitnesscentar.entities.Termin;
 import com.fitnesscentar.entities.Trening;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class TreningTerminDto {
     private long id;
 
-    private String naziv;
-    private String opis;
-    private String tipTreninga;
-    private int trajanje;
-    private List<TerminDto> termini;
+    private String treningNaziv;
+    private String treningOpis;
+    private String treningTipTreninga;
+    private int treningTrajanje;
+    private double cena;
+    private Date vremePocetka;
+    private int brojPrijavljenih;
+    private String salaOznaka;
+    private int salaKapacitet;
+
+    public TreningTerminDto(
+            long id,
+            double cena,
+            Date vremePocetka,
+            int brojPrijavljenih,
+            String naziv,
+            String opis,
+            String tipTreninga,
+            int trajanje,
+            String salaOznaka,
+            int salaKapacitet
+    ) {
+        this.id = id;
+        this.treningNaziv = naziv;
+        this.treningOpis = opis;
+        this.treningTipTreninga = tipTreninga;
+        this.treningTrajanje = trajanje;
+        this.cena = cena;
+        this.vremePocetka = vremePocetka;
+        this.brojPrijavljenih = brojPrijavljenih;
+        this.salaOznaka = salaOznaka;
+        this.salaKapacitet = salaKapacitet;
+    }
+    public TreningTerminDto(){}
+
+    public static TreningTerminDto build(Termin termin){
+
+        return new TreningTerminDto(
+                termin.getId(),
+                termin.getCena(),
+                termin.getVremePocetak(),
+                termin.getBrojPrijavljenih(),
+                termin.getTrening().getNaziv(),
+                termin.getTrening().getOpis(),
+                termin.getTrening().getTipTreninga(),
+                termin.getTrening().getTrajanje(),
+                termin.getSala().getOznaka(),
+                termin.getSala().getKapacitet()
+        );
+    }
+
     public long getId() {
         return id;
     }
@@ -22,65 +70,75 @@ public class TreningTerminDto {
         this.id = id;
     }
 
-    public String getNaziv() {
-        return naziv;
+    public String getTreningNaziv() {
+        return treningNaziv;
     }
 
-    public void setNaziv(String naziv) {
-        this.naziv = naziv;
+    public void setTreningNaziv(String treningNaziv) {
+        this.treningNaziv = treningNaziv;
     }
 
-    public String getOpis() {
-        return opis;
+    public String getTreningOpis() {
+        return treningOpis;
     }
 
-    public void setOpis(String opis) {
-        this.opis = opis;
+    public void setTreningOpis(String treningOpis) {
+        this.treningOpis = treningOpis;
     }
 
-    public String getTipTreninga() {
-        return tipTreninga;
+    public String getTreningTipTreninga() {
+        return treningTipTreninga;
     }
 
-    public void setTipTreninga(String tipTreninga) {
-        this.tipTreninga = tipTreninga;
+    public void setTreningTipTreninga(String treningTipTreninga) {
+        this.treningTipTreninga = treningTipTreninga;
     }
 
-    public int getTrajanje() {
-        return trajanje;
+    public int getTreningTrajanje() {
+        return treningTrajanje;
     }
 
-    public TreningTerminDto(long id, String naziv, String opis, String tipTreninga, int trajanje, List<TerminDto> termini) {
-        this.id = id;
-        this.naziv = naziv;
-        this.opis = opis;
-        this.tipTreninga = tipTreninga;
-        this.trajanje = trajanje;
-        this.termini = termini;
-    }
-    public TreningTerminDto(){}
-
-    public void setTrajanje(int trajanje) {
-        this.trajanje = trajanje;
+    public void setTreningTrajanje(int treningTrajanje) {
+        this.treningTrajanje = treningTrajanje;
     }
 
-    public List<TerminDto> getTermini() {
-        return termini;
+    public double getCena() {
+        return cena;
     }
 
-    public void setTermini(List<TerminDto> termini) {
-        this.termini = termini;
+    public void setCena(double cena) {
+        this.cena = cena;
     }
 
-    public static TreningTerminDto build(Trening trening){
+    public Date getVremePocetka() {
+        return vremePocetka;
+    }
 
-        return new TreningTerminDto(
-                trening.getId(),
-                trening.getNaziv(),
-                trening.getOpis(),
-                trening.getTipTreninga(),
-                trening.getTrajanje(),
-                trening.getTermini().stream().map(t -> TerminDto.build(t)).collect(Collectors.toList())
-        );
+    public void setVremePocetka(Date vremePocetka) {
+        this.vremePocetka = vremePocetka;
+    }
+
+    public int getBrojPrijavljenih() {
+        return brojPrijavljenih;
+    }
+
+    public void setBrojPrijavljenih(int brojPrijavljenih) {
+        this.brojPrijavljenih = brojPrijavljenih;
+    }
+
+    public String getSalaOznaka() {
+        return salaOznaka;
+    }
+
+    public void setSalaOznaka(String salaOznaka) {
+        this.salaOznaka = salaOznaka;
+    }
+
+    public int getSalaKapacitet() {
+        return salaKapacitet;
+    }
+
+    public void setSalaKapacitet(int salaKapacitet) {
+        this.salaKapacitet = salaKapacitet;
     }
 }

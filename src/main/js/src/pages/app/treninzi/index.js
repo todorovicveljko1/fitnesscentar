@@ -3,12 +3,43 @@ import { useQuery, useQueryClient } from 'react-query'
 import { useHistory } from 'react-router'
 import InputField from '../../../components/FormElements/InputField'
 import Paper from '../../../components/Layout/Paper'
+import Table from '../../../components/Table/Table'
 
 const columns = [
-  { key: 'naziv', lable: 'Naziv' },
-  { key: 'adresa', lable: 'Adresa', right: true },
-  { key: 'telefon', lable: 'Naziv', right: true },
-  { key: 'email', lable: 'Email', right: true },
+  { key: 'treningNaziv', lable: 'Naziv treninga' },
+  { key: 'treningOpis', lable: 'Opis trening' },
+  { key: 'treningTipTreninga', lable: 'Tip treninga' },
+  { key: 'treningTrajanje', lable: 'Trajanje treninga' },
+  {
+    key: 'cena',
+    lable: 'Cena termina',
+    right: true,
+    wrapper: (cena) => <span>{cena} rsd</span>,
+  },
+  {
+    key: 'vremePocetka',
+    lable: 'Vreme termina',
+    right: true,
+    wrapper: (vremePocetka) => (
+      <span>
+        {new Intl.DateTimeFormat('default', {
+          timeStyle: 'short',
+          dateStyle: 'medium',
+        }).format(new Date(vremePocetka))}
+      </span>
+    ),
+  },
+  { key: 'salaOznaka', lable: 'Oznaka sale', right: true },
+  {
+    key: ['brojPrijavljenih', 'salaKapacitet'],
+    lable: 'Prijavljeno',
+    right: true,
+    wrapper: ([brojPrijavljenih, salaKapacitet]) => (
+      <span>
+        {brojPrijavljenih}/{salaKapacitet}
+      </span>
+    ),
+  },
 ]
 
 function Treninzi() {
@@ -18,12 +49,19 @@ function Treninzi() {
   const [cena, setCena] = useState('')
   const [tip, setTip] = useState('')
   const [date, setDate] = useState('')
-  const { isLoading, error, data } = useQuery(['treninzi', 'termini'], () =>
-    fetch(`http://localhost:8080/api/treninzi/termini`, {
-      headers: {
-        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
-      },
-    }).then((res) => res.json())
+  const [orderBy, setOrderBy] = useState('')
+  const [direction, setDirection] = useState('')
+  const { isLoading, error, data, refetch } = useQuery(
+    ['treninzi', 'termini'],
+    () =>
+      fetch(
+        `http://localhost:8080/api/treninzi/search?naziv=${naziv}&opis=${opis}&cena=${cena}&tip=${tip}&vremePocetka=${date}&orderBy=${orderBy}&direction=${direction}`,
+        {
+          headers: {
+            Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+          },
+        }
+      ).then((res) => res.json())
   )
   return (
     <Paper className='pb-2'>
@@ -51,15 +89,16 @@ function Treninzi() {
             onChange={setTip}
           />
         </div>
-        <div className='col-2 px-2'>
+        <div className='col-1 px-2'>
           <InputField
             id='cena'
-            label='Cena termina'
+            label='Cena'
+            type='number'
             value={cena}
             onChange={setCena}
           />
         </div>
-        <div className='col-2'>
+        <div className='col-2 px-2'>
           <InputField
             id='datum'
             label='Datum termina'
@@ -68,99 +107,50 @@ function Treninzi() {
             onChange={setDate}
           />
         </div>
-        <div className='col-2'></div>
+        <div className='col-2 pb-3 px-2'>
+          <select
+            className='form-select '
+            onChange={(v) => {
+              switch (v.target.value) {
+                case '1':
+                  setOrderBy('cena')
+                  setDirection('asc')
+                  break
+                case '2':
+                  setOrderBy('cena')
+                  setDirection('desc')
+                  break
+                case '3':
+                  setOrderBy('vremePocetak')
+                  setDirection('asc')
+                  break
+                case '4':
+                  setOrderBy('vremePocetak')
+                  setDirection('desc')
+                  break
+                default:
+                  break
+              }
+            }}
+            defaultValue='0'
+          >
+            <option value='0'>Sortiraj po</option>
+            <option value='1'>Cena rastuce</option>
+            <option value='2'>Cena opadajuce</option>
+            <option value='3'>Datum rastuce</option>
+            <option value='4'>Datum opadajuce</option>
+          </select>
+        </div>
+        <div className='col-1 pb-3 ps-2 d-flex justify-content-end'>
+          <button className='btn btn-secondary' onClick={refetch}>
+            Pretrazi
+          </button>
+        </div>
       </div>
       {isLoading && <span>Loading...</span>}
       {!isLoading && (error || data.error) && <span>Error</span>}
       {!isLoading && !(error || data.error) && (
-        <div className='d-flex flex-column'>
-          {data
-            .filter((row) => {
-              return (
-                row.naziv.includes(naziv) &&
-                row.opis.includes(opis) &&
-                row.tipTreninga.includes(tip)
-              )
-            })
-            .map((row, i) => {
-              return (
-                <div
-                  key={row.id}
-                  className={`border-start ${
-                    !(i % 2) ? 'border-primary' : 'border-secondary'
-                  } border-4`}
-                >
-                  <div className='d-flex  ps-3 align-items-center border-top'>
-                    <div className='col-8'>
-                      <div> {row.naziv} </div>
-                      <div className='text-muted'> {row.opis} </div>
-                    </div>
-                    <span className='col-2'>
-                      <span className='fw-bold me-2'>Tip:</span>
-                      {row.tipTreninga}
-                    </span>
-                    <span className='col-2'>
-                      <span className='fw-bold me-2'>Trajanje:</span>{' '}
-                      {row.trajanje} minuta
-                    </span>
-                  </div>
-                  <div className='d-flex flex-column'>
-                    <div className='fw-bold mt-2 mb-1 ms-3'>Termini:</div>
-                    {row.termini &&
-                      row.termini
-                        .filter((termin) => {
-                          return (
-                            (cena == '' || termin.cena <= cena) &&
-                            (date == '' ||
-                              new Date(termin.vremePocetak) <= new Date(date))
-                          )
-                        })
-                        .map((termin) => {
-                          return (
-                            <div
-                              key={row.id + '_' + termin.id}
-                              className='d-flex align-items-center p-2 px-3 ms-3 me-3 border-top'
-                            >
-                              <div className='col-2'>
-                                <span className='text-muted pe-1'>Datum:</span>
-                                {new Date(
-                                  termin.vremePocetak
-                                ).toLocaleDateString()}
-                              </div>
-                              <div className='col-2'>
-                                <span className='text-muted pe-1'>Vreme:</span>
-                                {new Date(
-                                  termin.vremePocetak
-                                ).toLocaleTimeString()}
-                              </div>
-                              <div className='col-2'>
-                                <span className='text-muted pe-1'>Cena:</span>
-                                {termin.cena} rsd
-                              </div>
-                              <div className='col-2'>
-                                <span className='text-muted pe-1'>Sala:</span>
-                                {termin.sala.oznaka}
-                              </div>
-                              <div className='col-3'>
-                                <span className='text-muted pe-1'>
-                                  Broj popunjenih mesta:
-                                </span>
-                                {termin.brojPrijavljenih}/
-                                {termin.sala.kapacitet}
-                              </div>
-                              <div className='col-1 d-flex justify-content-end'>
-                                <button className='btn btn-primary btn-sm'>
-                                  Prijavi se
-                                </button>
-                              </div>
-                            </div>
-                          )
-                        })}
-                  </div>
-                </div>
-              )
-            })}
-        </div>
+        <Table className='mx-1' data={data} columns={columns}></Table>
       )}
     </Paper>
   )
