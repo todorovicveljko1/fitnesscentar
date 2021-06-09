@@ -14,11 +14,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.io.NotActiveException;
 
@@ -40,21 +42,24 @@ public class AuthController {
     }
 
     @PostMapping(value = "/registracija")
-    public ResponseEntity<KorisnikDto> registracija(@RequestBody KorisnikDto noviKorisnik){
+    public ResponseEntity<KorisnikDto> registracija(@RequestBody KorisnikDto noviKorisnik) throws ResponseStatusException {
         noviKorisnik.setLozinka(passwordEncoder.encode(noviKorisnik.getLozinka()));
-        return new ResponseEntity<>(KorisnikDto.build(korisnikServis.registruj(noviKorisnik)), HttpStatus.CREATED);
+        try{
+            return new ResponseEntity<>(KorisnikDto.build(korisnikServis.registruj(noviKorisnik)), HttpStatus.CREATED);
+        }catch(EntityExistsException err){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,err.getMessage(),err);
+        }
     }
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody KorisnikPrijavaDto authenticationRequest)
-            throws Exception {
+    @PostMapping(value = "/authenticate")
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody KorisnikPrijavaDto authenticationRequest) throws ResponseStatusException {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     authenticationRequest.getKorisnickoIme(), authenticationRequest.getLozika()));
         } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Korisnik nije aktivan", e);
         }
-        catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
+        catch (AuthenticationException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Losa kombinacija korisničkog imena i lozinke", e);
         }
 
         UserDetails userdetails = korisnikServis.getUserDetailsByUsername(authenticationRequest.getKorisnickoIme());

@@ -15,17 +15,17 @@ public class Korisnik implements Serializable {
     private long id;
 
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String korisnickoIme;
-    @Column
+    @Column(nullable = false)
     private String lozinka;
-    @Column
+    @Column(nullable = false)
     private String ime;
-    @Column
+    @Column(nullable = false)
     private String prezime;
     @Column
     private String telefon;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
     @Column
     private Date datumRodjenja;

@@ -1,6 +1,7 @@
 package com.fitnesscentar;
 
 import com.fitnesscentar.services.KorisnikServis;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -50,15 +51,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // h2 konzola
+        http.authorizeRequests().antMatchers("/").permitAll().and()
+                .authorizeRequests().antMatchers("/h2-console/**").permitAll();
         // Enable CORS and disable CSRF
-                http = http.cors().and().csrf().disable();
+        http = http.cors().and().csrf().disable();
 
+        // h2 konzola iframe
+        http.headers().frameOptions().disable();
+        
         // Set session management to stateless
         http = http
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and();
-
         // Set unauthorized requests exception handler
         http = http
                 .exceptionHandling()
@@ -71,10 +77,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         }
                 )
                 .and();
-
         // Set permissions on endpoints
         http.authorizeRequests()
                 // Our public endpoints
+                .antMatchers("/","/*.js","/*.css","/*.ico").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/authenticate").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/registracija").permitAll()
                 // Our private endpoints

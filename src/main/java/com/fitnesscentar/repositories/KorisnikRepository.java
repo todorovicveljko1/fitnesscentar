@@ -11,4 +11,6 @@ public interface KorisnikRepository extends JpaRepository<Korisnik, Long> {
     Korisnik findKorisnikByKorisnickoImeOrEmail(String k1, String k2);
     Optional<Korisnik> findByKorisnickoIme(String k1) throws UsernameNotFoundException;
     List<Korisnik> findAllByAktivanFalse();
+    boolean existsByKorisnickoIme(String k);
+    boolean existsByEmail(String k);
 }

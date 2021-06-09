@@ -35,7 +35,7 @@ function InputField(props) {
         placeholder={floating ? label : placeholder}
         disabled={disabled}
       />
-      {error && <div class='invalid-feedback'>{error}</div>}
+      {error && <div className='invalid-feedback'>{error}</div>}
       {floating && (
         <label htmlFor={id} className={`form-label ${lableClass}`}>
           {label}

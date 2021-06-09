@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.io.NotActiveException;
 import java.util.HashSet;
@@ -28,7 +29,15 @@ public class KorisnikServis {
         this.korisnikRepository = korisnikRepository;
     }
 
-    public Korisnik registruj(KorisnikDto noviKorisnik){
+    public Korisnik registruj(KorisnikDto noviKorisnik)throws EntityExistsException {
+
+        if(korisnikRepository.existsByKorisnickoIme(noviKorisnik.getKorisnickoIme())){
+            throw new EntityExistsException(String.format("Korisnik sa korisničkim imenom \"%s\"vec postoji",noviKorisnik.getKorisnickoIme()));
+        }
+        if(korisnikRepository.existsByEmail(noviKorisnik.getEmail())){
+            throw new EntityExistsException(String.format("Korisnik sa emejlom \"%s\"vec postoji",noviKorisnik.getEmail()));
+        }
+
         if(noviKorisnik.getUloga() == Uloga.CLAN){
             noviKorisnik.setAktivan(true);
         }else if(noviKorisnik.getUloga() == Uloga.TRENER){

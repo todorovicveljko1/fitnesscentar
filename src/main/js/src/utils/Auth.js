@@ -4,6 +4,7 @@ export const authContext = createContext({})
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
+  const [error, setError] = useState(null)
   // Ako imamo token cekamo da se korisnik ucita ako nemamo nista ne cekamo
   const [loading, setLoading] = useState(!!localStorage.getItem('token'))
   useEffect(() => {
@@ -25,7 +26,6 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user])
   const login = (username, pass) => {
-    setLoading(true)
     return fetch('http://localhost:8080/api/authenticate', {
       method: 'POST',
       mode: 'cors',
@@ -37,10 +37,18 @@ export const AuthProvider = ({ children }) => {
         lozika: pass,
       }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json()
+        } else {
+          setError('Losa kombinacija korisničkog imena i lozinke')
+          throw new Error()
+        }
+      })
       .then((json) => {
+        setLoading(true)
         localStorage.setItem('token', json.token)
-        fetch('http://localhost:8080/api/me', {
+        return fetch('http://localhost:8080/api/me', {
           method: 'GET',
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -49,15 +57,19 @@ export const AuthProvider = ({ children }) => {
           .then((res) => res.json())
           .then((json) => {
             setUser(json)
+            setError(null)
             setLoading(false)
             return json
           })
-          .catch((err) => console.log(err))
+          .catch((err) => {
+            throw err
+          })
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        return { error: err }
+      })
   }
   const register = (podaci) => {
-    setLoading(true)
     return fetch('http://localhost:8080/api/registracija', {
       method: 'POST',
       mode: 'cors',
@@ -67,12 +79,11 @@ export const AuthProvider = ({ children }) => {
       body: JSON.stringify(podaci),
     })
       .then((res) => {
-        setLoading(false)
+        setError(null)
         return res.json()
       })
       .catch((err) => {
-        setLoading(false)
-        console.log(err)
+        setError('Korisnik sa korisničkim imenom ili emajlom vec postoji')
       })
   }
   const logout = () => {
@@ -86,7 +97,7 @@ export const AuthProvider = ({ children }) => {
   }
   return (
     <authContext.Provider
-      value={{ user, loading, login, logout, register, hasRole }}
+      value={{ user, loading, login, logout, register, hasRole, error }}
     >
       {children}
     </authContext.Provider>
