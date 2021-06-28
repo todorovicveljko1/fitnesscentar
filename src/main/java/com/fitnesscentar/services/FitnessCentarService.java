@@ -1,8 +1,11 @@
 package com.fitnesscentar.services;
 
 import com.fitnesscentar.entities.FitnessCentar;
+import com.fitnesscentar.entities.Sala;
 import com.fitnesscentar.entities.dto.FitnessCentarDto;
+import com.fitnesscentar.entities.dto.SalaDto;
 import com.fitnesscentar.repositories.FitnessCentarRepository;
+import com.fitnesscentar.repositories.SalaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +17,12 @@ import java.util.Optional;
 public class FitnessCentarService {
 
     private final FitnessCentarRepository fitnessCentarRepository;
+    private final SalaRepository salaRepository;
 
     @Autowired
-    public FitnessCentarService(FitnessCentarRepository fitnessCentarRepository){
+    public FitnessCentarService(FitnessCentarRepository fitnessCentarRepository, SalaRepository salaRepository){
         this.fitnessCentarRepository = fitnessCentarRepository;
+        this.salaRepository = salaRepository;
     }
 
     public FitnessCentar getOne(Long id) throws EntityNotFoundException {
@@ -53,5 +58,12 @@ public class FitnessCentarService {
         if(fitnessCentarRepository.existsById(id)){
             fitnessCentarRepository.deleteById(id);
         }
+    }
+    public Sala addSala(Long id, SalaDto salaDto){
+        FitnessCentar fc = this.getOne(id);
+        Sala s = new Sala().fill(salaDto);
+        s.setFitnessCentar(fc);
+        salaRepository.save(s);
+        return s;
     }
 }

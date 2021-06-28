@@ -1,5 +1,7 @@
 package com.fitnesscentar.entities;
 
+import com.fitnesscentar.entities.dto.SalaDto;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -20,6 +22,22 @@ public class Sala implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private FitnessCentar fitnessCentar;
+
+    public Set<Termin> getTermini() {
+        return termini;
+    }
+
+    public void setTermini(Set<Termin> termini) {
+        this.termini = termini;
+    }
+
+    public FitnessCentar getFitnessCentar() {
+        return fitnessCentar;
+    }
+
+    public void setFitnessCentar(FitnessCentar fitnessCentar) {
+        this.fitnessCentar = fitnessCentar;
+    }
 
     public long getId() {
         return id;
@@ -43,5 +61,11 @@ public class Sala implements Serializable {
 
     public void setOznaka(String oznaka) {
         this.oznaka = oznaka;
+    }
+
+    public Sala fill(SalaDto salaDto){
+        this.setOznaka(salaDto.getOznaka());
+        this.setKapacitet(salaDto.getKapacitet());
+        return this;
     }
 }

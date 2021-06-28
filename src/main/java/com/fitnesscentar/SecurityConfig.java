@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // h2 konzola iframe
         http.headers().frameOptions().disable();
-        
+
         // Set session management to stateless
         http = http
                 .sessionManagement()

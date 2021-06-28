@@ -1,8 +1,10 @@
 package com.fitnesscentar.controllers;
 
 import com.fitnesscentar.entities.FitnessCentar;
+import com.fitnesscentar.entities.Sala;
 import com.fitnesscentar.entities.Uloga;
 import com.fitnesscentar.entities.dto.FitnessCentarDto;
+import com.fitnesscentar.entities.dto.SalaDto;
 import com.fitnesscentar.services.FitnessCentarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -64,5 +66,19 @@ public class FitnessCentarController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping(value = "/{id}/sale")
+    public ResponseEntity<List<SalaDto>> getFitnessCentarSale(@PathVariable Long id){
+        List<SalaDto> saleDto = new ArrayList<>();
+        for(Sala s: fitnessCentarService.getOne(id).getSale()){
+            saleDto.add(SalaDto.build(s));
+        }
+        return new ResponseEntity<>(saleDto, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/{id}/sale")
+    public ResponseEntity<SalaDto> addSale(@PathVariable Long id, @RequestBody SalaDto salaDto){
+
+        return new ResponseEntity<>(SalaDto.build(fitnessCentarService.addSala(id, salaDto)), HttpStatus.CREATED);
+    }
 
 }
