@@ -6,6 +6,7 @@ import Dashboard from '../../components/Layout/Dashboard'
 import loadable from '@loadable/component'
 
 const FitnessCentri = loadable(() => import('./fitnesscentri/index'))
+const OneFitnessCentri = loadable(() => import('./fitnesscentri/[id]'))
 const TreneriPotvrdi = loadable(() => import('./treneri/potvrdi'))
 const Treninzi = loadable(() => import('./treninzi/index'))
 
@@ -22,6 +23,11 @@ function Register() {
             path={`${path}/fitnesscentri`}
             exact
             component={FitnessCentri}
+          />
+          <AdminRoute
+            path={`${path}/fitnesscentri/:id`}
+            exact
+            component={OneFitnessCentri}
           />
           <ProtectedRoute
             path={`${path}/treninzi`}

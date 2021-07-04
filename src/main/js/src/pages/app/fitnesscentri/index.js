@@ -1,12 +1,19 @@
 import React, { useState } from 'react'
 import { useQuery, useQueryClient } from 'react-query'
 import { useHistory } from 'react-router'
+import { Link } from 'react-router-dom'
 import Paper from '../../../components/Layout/Paper'
 import FitnessCentarModal from '../../../components/Modal/FitnessCentar'
 import Table from '../../../components/Table/Table'
 
 const columns = [
-  { key: 'naziv', lable: 'Naziv' },
+  {
+    key: ['naziv', 'id'],
+    lable: 'Naziv',
+    wrapper: ([naziv, id]) => {
+      return <Link to={'/app/fitnesscentri/' + id}>{naziv}</Link>
+    },
+  },
   { key: 'adresa', lable: 'Adresa', right: true },
   { key: 'telefon', lable: 'Naziv', right: true },
   { key: 'email', lable: 'Email', right: true },
