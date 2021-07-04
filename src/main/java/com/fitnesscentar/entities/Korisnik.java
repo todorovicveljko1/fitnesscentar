@@ -174,4 +174,5 @@ public class Korisnik implements Serializable {
     public void setAktivan(boolean aktivan) {
         this.aktivan = aktivan;
     }
+
 }

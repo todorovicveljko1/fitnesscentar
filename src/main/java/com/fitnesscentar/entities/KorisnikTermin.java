@@ -33,4 +33,20 @@ public class KorisnikTermin {
     public void setOcena(int ocena) {
         this.ocena = ocena;
     }
+
+    public Korisnik getClan() {
+        return clan;
+    }
+
+    public void setClan(Korisnik clan) {
+        this.clan = clan;
+    }
+
+    public Termin getTermin() {
+        return termin;
+    }
+
+    public void setTermin(Termin termin) {
+        this.termin = termin;
+    }
 }

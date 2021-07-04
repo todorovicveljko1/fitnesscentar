@@ -3,6 +3,7 @@ package com.fitnesscentar.controllers;
 
 import com.fitnesscentar.entities.Korisnik;
 import com.fitnesscentar.entities.Termin;
+import com.fitnesscentar.entities.dto.KorisnikTerminDto;
 import com.fitnesscentar.entities.dto.TerminDto;
 import com.fitnesscentar.services.KorisnikServis;
 import com.fitnesscentar.services.TerminService;
@@ -53,6 +54,21 @@ public class ClanController {
         }catch (EntityNotFoundException e){
             return HttpStatus.NOT_FOUND;
         }
+    }
+
+    @GetMapping(value = "/odradjeni")
+    @PreAuthorize("hasAuthority('CLAN')")
+    public ResponseEntity<List<KorisnikTerminDto>> getOdradjeni(@RequestParam(defaultValue = "svi",name = "o") String get){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Korisnik korisnik = korisnikServis.korisnikSaKorisnickimImenom(authentication.getName());
+        return new ResponseEntity<>(
+                korisnik.getTerminiTreninga()
+                        .stream()
+                        .filter(t -> get.equals("svi") ||
+                                (get.equals("neocenjeni") && t.getOcena() == 0) ||
+                                (get.equals("ocenjeni") && t.getOcena() != 0))
+                        .map(t -> KorisnikTerminDto.build(t))
+                        .collect(Collectors.toList()), HttpStatus.OK);
     }
 
 
