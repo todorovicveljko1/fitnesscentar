@@ -24,7 +24,7 @@ public class SalaController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<SalaDto> updateFitnessCentar(@PathVariable Long id, @RequestBody SalaDto SalaDto) throws ResponseStatusException {
+    public ResponseEntity<SalaDto> update(@PathVariable Long id, @RequestBody SalaDto SalaDto) throws ResponseStatusException {
         try{
             return new ResponseEntity<>(SalaDto.build(salaService.update(id, SalaDto)), HttpStatus.OK);
         }catch (EntityNotFoundException exc){
@@ -33,7 +33,7 @@ public class SalaController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity deleteFitnessCentar(@PathVariable Long id){
+    public ResponseEntity delete(@PathVariable Long id){
         salaService.deleteById(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

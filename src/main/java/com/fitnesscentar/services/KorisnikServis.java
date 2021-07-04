@@ -97,4 +97,8 @@ public class KorisnikServis {
         k.fill(korisnikDto);
         return  k;
     }
+
+    public Korisnik save(Korisnik k){
+        return this.korisnikRepository.save(k);
+    }
 }

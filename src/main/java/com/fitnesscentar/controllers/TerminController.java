@@ -1,7 +1,9 @@
 package com.fitnesscentar.controllers;
 
 import com.fitnesscentar.entities.Korisnik;
+import com.fitnesscentar.entities.dto.SalaDto;
 import com.fitnesscentar.entities.dto.TerminPrijavaDto;
+import com.fitnesscentar.entities.dto.TreningDto;
 import com.fitnesscentar.services.KorisnikServis;
 import com.fitnesscentar.services.TerminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +13,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
 
 @RestController
@@ -41,5 +41,25 @@ public class TerminController {
         }else{
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Za izabrani termin nema slobodnih mesta");
         }
+    }
+
+    @GetMapping(value="/{id}/sala")
+    public ResponseEntity<SalaDto> getSala(@PathVariable Long id) throws ResponseStatusException{
+        try{
+            return new ResponseEntity<>(SalaDto.build(this.terminService.getOne(id).getSala()), HttpStatus.OK);
+        }catch(EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Termin nije pronadjen");
+        }
+
+    }
+
+    @GetMapping(value="/{id}/trening")
+    public ResponseEntity<TreningDto> getTrening(@PathVariable Long id) throws ResponseStatusException{
+        try{
+            return new ResponseEntity<>(TreningDto.build(this.terminService.getOne(id).getTrening()), HttpStatus.OK);
+        }catch(EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Termin nije pronadjen");
+        }
+
     }
 }
