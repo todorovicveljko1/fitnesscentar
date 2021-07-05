@@ -49,7 +49,7 @@ InputField.propTypes = {
   className: PropTypes.string,
   lableClass: PropTypes.string,
   inputClass: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   type: PropTypes.string,

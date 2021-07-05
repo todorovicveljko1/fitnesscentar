@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.persistence.EntityNotFoundException;
 
 @RestController
-@RequestMapping(value = "/api/sala")
+@RequestMapping(value = "/api/sale")
 public class SalaController {
 
     private final SalaService salaService;
