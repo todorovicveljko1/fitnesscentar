@@ -16,10 +16,12 @@ function Sidebar(props) {
             <div className='d-flex flex-column item-group'>
               <span className='item-group-header'>Korisnici</span>
               <div className='d-flex flex-column'>
-                <Link className='item' to='/app'>
-                  Članovi
-                </Link>
-                <Link className='item' to='/app'>
+                <Link
+                  className={`item ${
+                    pathList.indexOf('treneri') == 2 ? 'active-item' : ''
+                  }`}
+                  to='/app/treneri'
+                >
                   Treneri
                 </Link>
               </div>
@@ -44,7 +46,7 @@ function Sidebar(props) {
             Treninzi
           </Link>
 
-          {hasRole('ADMIN') && (
+          {/*hasRole('ADMIN') && (
             <Link
               className={`item ${
                 pathList.indexOf('potvrdi') == 3 ? 'active-item' : ''
@@ -53,7 +55,7 @@ function Sidebar(props) {
             >
               Prihvatanje trenera
             </Link>
-          )}
+            )*/}
         </div>
       )}
     </div>

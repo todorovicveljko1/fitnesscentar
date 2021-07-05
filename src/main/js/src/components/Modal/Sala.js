@@ -113,6 +113,10 @@ function SalaModal(props) {
                 console.log(props.mode)
                 if (props.mode == 'CREATE') {
                   createMutation.mutate(data)
+                  setData({
+                    kapacitet: '',
+                    oznaka: '',
+                  })
                 } else if (props.mode == 'EDIT') {
                   updateMutation.mutate(data)
                 }

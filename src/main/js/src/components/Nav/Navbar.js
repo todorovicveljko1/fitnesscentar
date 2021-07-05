@@ -41,7 +41,9 @@ function Navbar(props) {
           {localStorage.getItem('token') && user && (
             <div className='d-flex  justify-content-center align-items-baseline'>
               <span className='pe-1'>{user.korisnickoIme} </span>
-              <span className='text-muted'>({user.email})</span>
+              <span className='d-none d-sm-block text-muted'>
+                ({user.email})
+              </span>
               <button className='btn btn-light' onClick={logout}>
                 Odjavi se
               </button>
