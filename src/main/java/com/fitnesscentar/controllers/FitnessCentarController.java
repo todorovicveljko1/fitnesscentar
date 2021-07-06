@@ -9,6 +9,7 @@ import com.fitnesscentar.services.FitnessCentarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -29,6 +30,7 @@ public class FitnessCentarController {
 
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('TRENER')")
     public ResponseEntity<List<FitnessCentarDto>> getAllFitnessCentar(){
         List<FitnessCentarDto> fcd = new ArrayList<>();
         for(FitnessCentar fc: fitnessCentarService.getAll()){
@@ -47,11 +49,13 @@ public class FitnessCentarController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<FitnessCentarDto> createFitnessCentar(@RequestBody FitnessCentarDto fitnessCentarDto){
         return new ResponseEntity<>(FitnessCentarDto.build(fitnessCentarService.create(fitnessCentarDto)), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<FitnessCentarDto> updateFitnessCentar(@PathVariable Long id, @RequestBody FitnessCentarDto fitnessCentarDto) throws EntityNotFoundException{
         try{
             return new ResponseEntity<>(FitnessCentarDto.build(fitnessCentarService.update(id, fitnessCentarDto)), HttpStatus.OK);
@@ -61,12 +65,14 @@ public class FitnessCentarController {
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity deleteFitnessCentar(@PathVariable Long id){
         fitnessCentarService.deleteById(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping(value = "/{id}/sale")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<SalaDto>> getFitnessCentarSale(@PathVariable Long id){
         List<SalaDto> saleDto = new ArrayList<>();
         for(Sala s: fitnessCentarService.getOne(id).getSale()){
@@ -76,6 +82,7 @@ public class FitnessCentarController {
     }
 
     @PostMapping(value = "/{id}/sale")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<SalaDto> addSale(@PathVariable Long id, @RequestBody SalaDto salaDto){
 
         return new ResponseEntity<>(SalaDto.build(fitnessCentarService.addSala(id, salaDto)), HttpStatus.CREATED);

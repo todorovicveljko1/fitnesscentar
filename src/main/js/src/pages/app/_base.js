@@ -4,6 +4,7 @@ import { useAuth } from '../../utils/Auth'
 import { ProtectedRoute, AdminRoute } from '../../utils/Route'
 import Dashboard from '../../components/Layout/Dashboard'
 import loadable from '@loadable/component'
+import PickFCModal from '../../components/Modal/PickFC'
 
 const FitnessCentri = loadable(() => import('./fitnesscentri/index'))
 const OneFitnessCentri = loadable(() => import('./fitnesscentri/[id]'))
@@ -13,7 +14,7 @@ const Treneri = loadable(() => import('./treneri/index'))
 
 function Register() {
   const history = useHistory()
-  const { user } = useAuth()
+  const { user, hasRole, loading } = useAuth()
   let { path } = useRouteMatch()
 
   return (
@@ -43,6 +44,12 @@ function Register() {
           />
         </Switch>
       </Suspense>
+
+      {!loading && user && hasRole('TRENER') && (
+        <div>
+          <PickFCModal user={user} />
+        </div>
+      )}
     </Dashboard>
   )
 }

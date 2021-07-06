@@ -19,7 +19,9 @@ public class TrenerService {
         this.korisnikRepository = korisnikRepository;
         this.korisnikServis = korisnikServis;
     }
-
+    public Korisnik getOne(Long id) throws EntityNotFoundException{
+        return this.korisnikServis.getOne(id);
+    }
     public List<Korisnik> getAllNeAktivne(){
         return korisnikRepository.findAllByAktivanFalse();
     }
@@ -47,5 +49,9 @@ public class TrenerService {
         trener.setUloga(Uloga.TRENER);
         k.fill(trener);
         return korisnikRepository.save(k);
+    }
+
+    public void save(Korisnik trener) {
+        this.korisnikRepository.save(trener);
     }
 }

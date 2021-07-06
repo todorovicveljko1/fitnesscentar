@@ -84,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/api/authenticate").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/registracija").permitAll()
                 // Our private endpoints
-                .antMatchers("/api/fitnesscentar/**").hasAuthority("ADMIN")
+                //.antMatchers("/api/fitnesscentar/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated();
 
         // Add JWT token filter

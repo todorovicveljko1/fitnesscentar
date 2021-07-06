@@ -61,16 +61,7 @@ function Sidebar(props) {
     </div>
   )
 }
-/*
-<div className='d-flex flex-column pt-3'>
-  <span className='item active-item'>Fitness Centari</span>
-  <span className='item'>Sale</span>
-  <span className='item'>Treneri</span>
-  <span className='item'>Korisnici</span>
-  <span className='item'>Treninzi</span>
-  <span className='item'>Termini</span>
-</div>
-*/
+
 Sidebar.propTypes = {
   open: PropTypes.bool,
 }
