@@ -43,7 +43,7 @@ function Sidebar(props) {
             }`}
             to='/app/treninzi'
           >
-            Treninzi
+            Pretraga treninga
           </Link>
 
           {/*hasRole('ADMIN') && (

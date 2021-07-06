@@ -42,14 +42,26 @@ public class ClanController {
                     .collect(Collectors.toList()), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/prijave/{id}")
+    @PreAuthorize("hasAuthority('CLAN')")
+    public ResponseEntity<Boolean> getPrijave(@PathVariable Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Korisnik korisnik = korisnikServis.korisnikSaKorisnickimImenom(authentication.getName());
+        return new ResponseEntity<>(
+                !korisnik.getPrijavljeniTermini()
+                        .stream()
+                        .filter(t -> t.getId()==id).collect(Collectors.toList()).isEmpty()
+                        , HttpStatus.OK);
+    }
+
+
     @DeleteMapping(value = "/prijave/{id}")
     @PreAuthorize("hasAuthority('CLAN')")
     public HttpStatus deletePrijave(@PathVariable Long id) throws EntityNotFoundException {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             Korisnik korisnik = korisnikServis.korisnikSaKorisnickimImenom(authentication.getName());
-            korisnik.getPrijavljeniTermini().remove(terminService.getOne(id));
-            korisnikServis.save(korisnik);
+            terminService.odjaviSe(id, korisnik);
             return HttpStatus.NO_CONTENT;
         }catch (EntityNotFoundException e){
             return HttpStatus.NOT_FOUND;

@@ -2,6 +2,7 @@ package com.fitnesscentar.controllers;
 
 import com.fitnesscentar.entities.Korisnik;
 import com.fitnesscentar.entities.dto.SalaDto;
+import com.fitnesscentar.entities.dto.TerminAllDto;
 import com.fitnesscentar.entities.dto.TerminPrijavaDto;
 import com.fitnesscentar.entities.dto.TreningDto;
 import com.fitnesscentar.services.KorisnikServis;
@@ -41,6 +42,16 @@ public class TerminController {
         }else{
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Za izabrani termin nema slobodnih mesta");
         }
+    }
+
+    @GetMapping(value="/{id}")
+    public ResponseEntity<TerminAllDto> getAllDataSala(@PathVariable Long id) throws ResponseStatusException{
+        try{
+            return new ResponseEntity<>(TerminAllDto.build(this.terminService.getOne(id)), HttpStatus.OK);
+        }catch(EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Termin nije pronadjen");
+        }
+
     }
 
     @GetMapping(value="/{id}/sala")

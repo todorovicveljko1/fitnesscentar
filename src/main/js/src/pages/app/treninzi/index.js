@@ -1,15 +1,25 @@
 import React, { useState } from 'react'
 import { useQuery, useQueryClient } from 'react-query'
+import { useAuth } from '../../../utils/Auth'
 import { useHistory } from 'react-router'
+import { Link } from 'react-router-dom'
 import InputField from '../../../components/FormElements/InputField'
 import Paper from '../../../components/Layout/Paper'
 import Table from '../../../components/Table/Table'
 
 const columns = [
-  { key: 'treningNaziv', lable: 'Naziv treninga' },
+  {
+    key: ['treningNaziv', 'id'],
+    lable: 'Naziv treninga',
+    wrapper: ([naziv, id]) => {
+      const { hasRole } = useAuth()
+      if (hasRole('CLAN')) return <Link to={'/app/termini/' + id}>{naziv}</Link>
+      else return naziv
+    },
+  },
   { key: 'treningOpis', lable: 'Opis trening' },
-  { key: 'treningTipTreninga', lable: 'Tip treninga' },
-  { key: 'treningTrajanje', lable: 'Trajanje treninga' },
+  { key: 'treningTipTreninga', lable: 'Tip' },
+  { key: 'treningTrajanje', lable: 'Trajanje' },
   {
     key: 'cena',
     lable: 'Cena termina',
@@ -66,7 +76,7 @@ function Treninzi() {
   return (
     <Paper className='pb-2'>
       <div className='d-flex justify-content-between p-3'>
-        <span className='fs-5 fw-bold '>Treninzi</span>
+        <span className='fs-5 fw-bold '>Pretraga treninga</span>
       </div>
       <div className='d-flex px-3 align-items-end pb-3'>
         <div className='col-2 px-2 ps-0'>

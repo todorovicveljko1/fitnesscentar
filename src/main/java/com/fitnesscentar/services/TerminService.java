@@ -33,11 +33,18 @@ public class TerminService {
         return termin.getBrojPrijavljenih() < termin.getSala().getKapacitet();
     }
 
-    public void prijaviSe(Long id, Korisnik korisnik){
+    public void prijaviSe(Long id, Korisnik korisnik) throws EntityNotFoundException{
         Termin termin = this.getOne(id);
-        termin.getPrijavljeniClanovi().add(korisnik);
         korisnik.getPrijavljeniTermini().add(termin);
         termin.setBrojPrijavljenih(termin.getBrojPrijavljenih()+1);
+        this.terminRepository.save(termin);
+        this.korisnikRepository.save(korisnik);
+    }
+
+    public void odjaviSe(Long id, Korisnik korisnik) throws EntityNotFoundException {
+        Termin termin = this.getOne(id);
+        korisnik.getPrijavljeniTermini().remove(termin);
+        termin.setBrojPrijavljenih(termin.getBrojPrijavljenih()-1);
         this.terminRepository.save(termin);
         this.korisnikRepository.save(korisnik);
     }

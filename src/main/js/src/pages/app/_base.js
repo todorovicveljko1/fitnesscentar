@@ -11,6 +11,7 @@ const OneFitnessCentri = loadable(() => import('./fitnesscentri/[id]'))
 const TreneriPotvrdi = loadable(() => import('./treneri/potvrdi'))
 const Treninzi = loadable(() => import('./treninzi/index'))
 const Treneri = loadable(() => import('./treneri/index'))
+const OneTermini = loadable(() => import('./termini/[id]'))
 
 function Register() {
   const history = useHistory()
@@ -36,6 +37,11 @@ function Register() {
             path={`${path}/treninzi`}
             exact
             component={Treninzi}
+          />
+          <ProtectedRoute
+            path={`${path}/termini/:id`}
+            exact
+            component={OneTermini}
           />
           <AdminRoute
             path={`${path}/treneri/potvrdi`}
