@@ -12,6 +12,7 @@ const TreneriPotvrdi = loadable(() => import('./treneri/potvrdi'))
 const Treninzi = loadable(() => import('./treninzi/index'))
 const Treneri = loadable(() => import('./treneri/index'))
 const OneTermini = loadable(() => import('./termini/[id]'))
+const PrijaveTermini = loadable(() => import('./termini/prijave'))
 const Odradjeni = loadable(() => import('./odradjeni'))
 
 function Register() {
@@ -38,6 +39,11 @@ function Register() {
             path={`${path}/treninzi`}
             exact
             component={Treninzi}
+          />
+          <ClanRoute
+            path={`${path}/termini/prijave`}
+            exact
+            component={PrijaveTermini}
           />
           <ClanRoute
             path={`${path}/termini/:id`}

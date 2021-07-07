@@ -4,6 +4,7 @@ package com.fitnesscentar.controllers;
 import com.fitnesscentar.entities.Korisnik;
 import com.fitnesscentar.entities.Termin;
 import com.fitnesscentar.entities.dto.KorisnikTerminDto;
+import com.fitnesscentar.entities.dto.TerminAllDto;
 import com.fitnesscentar.entities.dto.TerminDto;
 import com.fitnesscentar.services.KorisnikServis;
 import com.fitnesscentar.services.TerminService;
@@ -32,13 +33,13 @@ public class ClanController {
 
     @GetMapping(value = "/prijave")
     @PreAuthorize("hasAuthority('CLAN')")
-    public ResponseEntity<List<TerminDto>> getPrijave(){
+    public ResponseEntity<List<TerminAllDto>> getPrijave(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Korisnik korisnik = korisnikServis.korisnikSaKorisnickimImenom(authentication.getName());
         return new ResponseEntity<>(
             korisnik.getPrijavljeniTermini()
                     .stream()
-                    .map(t -> TerminDto.build(t))
+                    .map(t -> TerminAllDto.build(t))
                     .collect(Collectors.toList()), HttpStatus.OK);
     }
 
