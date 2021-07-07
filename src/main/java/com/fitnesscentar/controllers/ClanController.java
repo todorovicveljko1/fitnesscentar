@@ -67,6 +67,19 @@ public class ClanController {
             return HttpStatus.NOT_FOUND;
         }
     }
+    // Ocenjianje
+    @PutMapping(value = "/odradjeni/{id}")
+    @PreAuthorize("hasAuthority('CLAN')")
+    public HttpStatus oceni(@PathVariable Long id, @RequestBody int ocena) throws EntityNotFoundException {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Korisnik korisnik = korisnikServis.korisnikSaKorisnickimImenom(authentication.getName());
+            korisnikServis.oceni(korisnik, id,ocena);
+            return HttpStatus.OK;
+        }catch (EntityNotFoundException e){
+            return HttpStatus.NOT_FOUND;
+        }
+    }
 
     @GetMapping(value = "/odradjeni")
     @PreAuthorize("hasAuthority('CLAN')")

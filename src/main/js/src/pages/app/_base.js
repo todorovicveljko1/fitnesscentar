@@ -1,7 +1,7 @@
 import React, { useState, Suspense } from 'react'
 import { Route, Switch, useHistory, useRouteMatch } from 'react-router'
 import { useAuth } from '../../utils/Auth'
-import { ProtectedRoute, AdminRoute } from '../../utils/Route'
+import { ProtectedRoute, AdminRoute, ClanRoute } from '../../utils/Route'
 import Dashboard from '../../components/Layout/Dashboard'
 import loadable from '@loadable/component'
 import PickFCModal from '../../components/Modal/PickFC'
@@ -12,6 +12,7 @@ const TreneriPotvrdi = loadable(() => import('./treneri/potvrdi'))
 const Treninzi = loadable(() => import('./treninzi/index'))
 const Treneri = loadable(() => import('./treneri/index'))
 const OneTermini = loadable(() => import('./termini/[id]'))
+const Odradjeni = loadable(() => import('./odradjeni'))
 
 function Register() {
   const history = useHistory()
@@ -38,10 +39,16 @@ function Register() {
             exact
             component={Treninzi}
           />
-          <ProtectedRoute
+          <ClanRoute
             path={`${path}/termini/:id`}
             exact
             component={OneTermini}
+          />
+
+          <ClanRoute
+            path={`${path}/odradjeni/:koji`}
+            exact
+            component={Odradjeni}
           />
           <AdminRoute
             path={`${path}/treneri/potvrdi`}

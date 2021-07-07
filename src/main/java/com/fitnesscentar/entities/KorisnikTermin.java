@@ -9,7 +9,7 @@ public class KorisnikTermin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column
-    private int ocena;
+    private int ocena = 0;
 
     // Koji clan ide
     @ManyToOne(fetch = FetchType.EAGER)

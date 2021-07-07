@@ -2,10 +2,12 @@ package com.fitnesscentar.services;
 
 import com.fitnesscentar.entities.FitnessCentar;
 import com.fitnesscentar.entities.Korisnik;
+import com.fitnesscentar.entities.KorisnikTermin;
 import com.fitnesscentar.entities.Uloga;
 import com.fitnesscentar.entities.dto.KorisnikDto;
 import com.fitnesscentar.entities.dto.KorisnikPrijavaDto;
 import com.fitnesscentar.repositories.KorisnikRepository;
+import com.fitnesscentar.repositories.KorisnikTerminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,10 +25,13 @@ import java.util.Set;
 @Service
 public class KorisnikServis {
     private final KorisnikRepository korisnikRepository;
+    private final KorisnikTerminRepository korisnikTerminRepository;
 
     @Autowired
-    public KorisnikServis(KorisnikRepository korisnikRepository){
+    public KorisnikServis(KorisnikRepository korisnikRepository, KorisnikTerminRepository korisnikTerminRepository){
+
         this.korisnikRepository = korisnikRepository;
+        this.korisnikTerminRepository = korisnikTerminRepository;
     }
 
     public Korisnik registruj(KorisnikDto noviKorisnik)throws EntityExistsException {
@@ -100,5 +105,16 @@ public class KorisnikServis {
 
     public Korisnik save(Korisnik k){
         return this.korisnikRepository.save(k);
+    }
+
+    public void oceni(Korisnik korisnik, Long id, int ocena) throws EntityNotFoundException{
+        Optional<KorisnikTermin> kto = this.korisnikTerminRepository.findByIdEqualsAndClan_Id(id, korisnik.getId());
+        if(kto.isPresent()) {
+            KorisnikTermin kt = kto.get();
+            kt.setOcena(ocena);
+            this.korisnikTerminRepository.save(kt);
+        }else{
+            throw new EntityNotFoundException();
+        }
     }
 }

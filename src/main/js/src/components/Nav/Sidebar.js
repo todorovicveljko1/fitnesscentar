@@ -45,7 +45,46 @@ function Sidebar(props) {
           >
             Pretraga treninga
           </Link>
-
+          {hasRole('CLAN') && (
+            <div className='d-flex flex-column item-group'>
+              <span className='item-group-header'>Odradjeni treninzi</span>
+              <div className='d-flex flex-column'>
+                <Link
+                  className={`item ${
+                    pathList.indexOf('odradjeni') == 2 &&
+                    pathList.indexOf('svi') == 3
+                      ? 'active-item'
+                      : ''
+                  }`}
+                  to='/app/odradjeni/svi'
+                >
+                  Svi
+                </Link>
+                <Link
+                  className={`item ${
+                    pathList.indexOf('odradjeni') == 2 &&
+                    pathList.indexOf('ocenjeni') == 3
+                      ? 'active-item'
+                      : ''
+                  }`}
+                  to='/app/odradjeni/ocenjeni'
+                >
+                  Ocenjeni
+                </Link>
+                <Link
+                  className={`item ${
+                    pathList.indexOf('odradjeni') == 2 &&
+                    pathList.indexOf('neocenjeni') == 3
+                      ? 'active-item'
+                      : ''
+                  }`}
+                  to='/app/odradjeni/neocenjeni'
+                >
+                  Ne Ocenjeni
+                </Link>
+              </div>
+            </div>
+          )}
           {/*hasRole('ADMIN') && (
             <Link
               className={`item ${

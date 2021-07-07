@@ -17,7 +17,7 @@ function FitnessCentar() {
     isLoading: isLP,
     error: ep,
     data: dp,
-  } = useQuery(['prijave', id], () =>
+  } = useQuery(['termin', 'prijave', id], () =>
     fetch('http://localhost:8080/api/clan/prijave/' + id, {
       headers: {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
@@ -51,7 +51,7 @@ function FitnessCentar() {
                       .then((v) => v.json())
                       .then((d) => {
                         queryClient.invalidateQueries(['termin', id])
-                        queryClient.invalidateQueries(['prijave', id])
+                        queryClient.invalidateQueries(['termin', 'prijave', id])
                       })
                   }}
                 >
@@ -59,7 +59,8 @@ function FitnessCentar() {
                 </button>
               ) : (
                 <button
-                  className='btn ms-2 btn-primary'
+                  className='btn ms-2 btn-primary '
+                  disabled={data.brojPrijavljenih >= data.salaKapacitet}
                   onClick={() => {
                     fetch(
                       'http://localhost:8080/api/termin/' + id + '/prijave',

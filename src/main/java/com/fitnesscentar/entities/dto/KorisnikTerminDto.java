@@ -5,7 +5,7 @@ import com.fitnesscentar.entities.KorisnikTermin;
 public class KorisnikTerminDto {
     private long id;
     private int ocena;
-    private TerminDto termin;
+    private TerminAllDto termin;
 
     public long getId() {
         return id;
@@ -23,15 +23,15 @@ public class KorisnikTerminDto {
         this.ocena = ocena;
     }
 
-    public TerminDto getTermin() {
+    public TerminAllDto getTermin() {
         return termin;
     }
 
-    public void setTermin(TerminDto termin) {
+    public void setTermin(TerminAllDto termin) {
         this.termin = termin;
     }
     public KorisnikTerminDto(){}
-    public KorisnikTerminDto(long id, int ocena, TerminDto termin) {
+    public KorisnikTerminDto(long id, int ocena, TerminAllDto termin) {
         this.id = id;
         this.ocena = ocena;
         this.termin = termin;
@@ -41,7 +41,7 @@ public class KorisnikTerminDto {
         return new KorisnikTerminDto(
                 kt.getId(),
                 kt.getOcena(),
-                TerminDto.build(kt.getTermin())
+                TerminAllDto.build(kt.getTermin())
         );
     }
 }

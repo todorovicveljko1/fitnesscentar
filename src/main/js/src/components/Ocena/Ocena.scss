@@ -1,0 +1,24 @@
+.ocena {
+  .o svg {
+    fill: #ecad00;
+    color: #ec8600;
+  }
+  .no svg {
+    fill: #fff;
+    color: #343a40;
+  }
+
+  .ic:hover {
+    svg {
+      fill: #a3a3a3;
+      color: #343a40;
+    }
+    ~ .ic svg {
+      fill: #a3a3a3;
+      color: #343a40;
+    }
+  }
+  .ocena-text {
+    color: #343a40;
+  }
+}

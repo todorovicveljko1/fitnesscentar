@@ -5,7 +5,9 @@ import com.fitnesscentar.entities.dto.KorisnikDto;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -41,7 +43,7 @@ public class Korisnik implements Serializable {
 
     // Set termina na koje korisnik ide
     @OneToMany(mappedBy = "clan", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<KorisnikTermin> terminiTreninga = new HashSet<>();
+    private List<KorisnikTermin> terminiTreninga = new ArrayList<>();
 
     // Set treninga koje trener drzi
     @OneToMany(mappedBy = "trener", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -87,11 +89,11 @@ public class Korisnik implements Serializable {
         this.fitnessCentar = fitnessCentar;
     }
 
-    public Set<KorisnikTermin> getTerminiTreninga() {
+    public List<KorisnikTermin> getTerminiTreninga() {
         return terminiTreninga;
     }
 
-    public void setTerminiTreninga(Set<KorisnikTermin> terminiTreninga) {
+    public void setTerminiTreninga(List<KorisnikTermin> terminiTreninga) {
         this.terminiTreninga = terminiTreninga;
     }
 
