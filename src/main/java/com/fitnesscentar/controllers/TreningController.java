@@ -88,7 +88,7 @@ public class TreningController {
         try{
             return new ResponseEntity<>(TreningDto.build(treningService.update(id, treningDto)), HttpStatus.OK);
         }catch (EntityNotFoundException exc){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Fitness centar(ID: %d) nije pronadjen", id), exc);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Trening(ID: %d) nije pronadjen", id), exc);
         }
     }
 

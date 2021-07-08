@@ -6,12 +6,15 @@ import com.fitnesscentar.entities.Korisnik;
 import com.fitnesscentar.entities.dto.FitnessCentarDto;
 import com.fitnesscentar.entities.dto.KorisnikDto;
 import com.fitnesscentar.entities.dto.SalaDto;
+import com.fitnesscentar.entities.dto.TreningDto;
 import com.fitnesscentar.services.FitnessCentarService;
 import com.fitnesscentar.services.KorisnikServis;
 import com.fitnesscentar.services.TrenerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -28,12 +31,14 @@ public class TrenerController {
     private final TrenerService trenerService;
     private final PasswordEncoder passwordEncoder;
     private final FitnessCentarService fitnessCentarService;
+    private final KorisnikServis korisnikServis;
 
     @Autowired
-    public TrenerController(FitnessCentarService fitnessCentarService, TrenerService trenerService, PasswordEncoder passwordEncoder) {
+    public TrenerController(KorisnikServis korisnikServis, FitnessCentarService fitnessCentarService, TrenerService trenerService, PasswordEncoder passwordEncoder) {
         this.trenerService = trenerService;
         this.passwordEncoder = passwordEncoder;
         this.fitnessCentarService = fitnessCentarService;
+        this.korisnikServis = korisnikServis;
     }
 
     @GetMapping
@@ -95,5 +100,24 @@ public class TrenerController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Trener nije pronadjen");
         }
 
+    }
+
+
+    @GetMapping(value="/treninzi")
+    public ResponseEntity<List<TreningDto>> getTrenerTreninzi(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Korisnik korisnik = korisnikServis.korisnikSaKorisnickimImenom(authentication.getName());
+        return new ResponseEntity<>(this.trenerService
+                .getTrenerTreninzi(korisnik)
+                .stream()
+                .map(t-> TreningDto.build(t))
+                .collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    @PostMapping(value="/treninzi")
+    public ResponseEntity<TreningDto> postTrenerTreninzi(@RequestBody TreningDto treningDto){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Korisnik korisnik = korisnikServis.korisnikSaKorisnickimImenom(authentication.getName());
+        return new ResponseEntity<>(TreningDto.build(this.trenerService.addTrening(korisnik,treningDto)),HttpStatus.OK);
     }
 }

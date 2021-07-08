@@ -39,9 +39,12 @@ function Sidebar(props) {
           )}
           <Link
             className={`item ${
-              pathList.indexOf('treninzi') == 2 ? 'active-item' : ''
+              pathList.indexOf('treninzi') == 2 &&
+              pathList.indexOf('pretraga') == 3
+                ? 'active-item'
+                : ''
             }`}
-            to='/app/treninzi'
+            to='/app/treninzi/pretraga'
           >
             Pretraga treninga
           </Link>
@@ -97,6 +100,18 @@ function Sidebar(props) {
                 </div>
               </div>
             </>
+          )}
+          {hasRole('TRENER') && (
+            <Link
+              className={`item ${
+                pathList.indexOf('treninzi') == 2 && pathList.length == 3
+                  ? 'active-item'
+                  : ''
+              }`}
+              to='/app/treninzi'
+            >
+              Treninzi
+            </Link>
           )}
           {/*hasRole('ADMIN') && (
             <Link

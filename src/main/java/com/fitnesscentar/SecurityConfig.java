@@ -83,6 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/","/*.js","/*.css","/*.ico").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/authenticate").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/registracija").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/treninzi/search").permitAll()
                 // Our private endpoints
                 //.antMatchers("/api/fitnesscentar/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated();
