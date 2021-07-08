@@ -60,7 +60,10 @@ function FitnessCentar() {
               ) : (
                 <button
                   className='btn ms-2 btn-primary '
-                  disabled={data.brojPrijavljenih >= data.salaKapacitet}
+                  disabled={
+                    data.brojPrijavljenih >= data.salaKapacitet ||
+                    new Date(data.vremePocetka) - new Date() < 0
+                  }
                   onClick={() => {
                     fetch(
                       'http://localhost:8080/api/termin/' + id + '/prijave',
@@ -75,7 +78,7 @@ function FitnessCentar() {
                       .then((v) => v.json())
                       .then((d) => {
                         queryClient.invalidateQueries(['termin', id])
-                        queryClient.invalidateQueries(['prijave', id])
+                        queryClient.invalidateQueries(['termin', 'prijave', id])
                       })
                   }}
                 >

@@ -2,8 +2,10 @@ package com.fitnesscentar.services;
 
 import com.fitnesscentar.entities.*;
 import com.fitnesscentar.entities.dto.FitnessCentarDto;
+import com.fitnesscentar.entities.dto.TerminBodyDto;
 import com.fitnesscentar.entities.dto.TreningDto;
 import com.fitnesscentar.repositories.FitnessCentarRepository;
+import com.fitnesscentar.repositories.TerminRepository;
 import com.fitnesscentar.repositories.TreningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +22,15 @@ import java.util.Optional;
 @Service
 public class TreningService {
     private final TreningRepository treningRepository;
+    private final TerminRepository terminRepository;
+    private final SalaService salaService;
     private final EntityManager em;
     @Autowired
-    public TreningService(TreningRepository treningRepository,EntityManager em){
+    public TreningService(TerminRepository terminRepository, SalaService salaService, TreningRepository treningRepository,EntityManager em){
         this.treningRepository = treningRepository;
         this.em = em;
+        this.salaService = salaService;
+        this.terminRepository= terminRepository;
     }
 
     public Trening getOne(Long id) throws EntityNotFoundException {
@@ -98,4 +104,16 @@ public class TreningService {
         return terminQuery.getResultList();
     }
 
+    public Termin addTermin(Long id, TerminBodyDto terminBodyDto) throws EntityNotFoundException{
+        Trening trening = this.getOne(id);
+        Termin termin = new Termin();
+        termin.setBrojPrijavljenih(0);
+        termin.setCena(terminBodyDto.getCena());
+        termin.setVremePocetak(terminBodyDto.getVremePocetak());
+        termin.setTrening(trening);
+        Sala s = this.salaService.getOne(terminBodyDto.getSala());
+        // Provera da li je sala slobodna
+        termin.setSala(s);
+        return terminRepository.save(termin);
+    }
 }

@@ -102,6 +102,16 @@ public class TrenerController {
 
     }
 
+    @GetMapping(value="/sale")
+    public ResponseEntity<List<SalaDto>> getSale(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Korisnik korisnik = korisnikServis.korisnikSaKorisnickimImenom(authentication.getName());
+        return new ResponseEntity<>(korisnik.getFitnessCentar()
+                .getSale()
+                .stream()
+                .map(t-> SalaDto.build(t))
+                .collect(Collectors.toList()), HttpStatus.OK);
+    }
 
     @GetMapping(value="/treninzi")
     public ResponseEntity<List<TreningDto>> getTrenerTreninzi(){

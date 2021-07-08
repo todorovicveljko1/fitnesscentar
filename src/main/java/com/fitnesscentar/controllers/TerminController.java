@@ -1,10 +1,8 @@
 package com.fitnesscentar.controllers;
 
 import com.fitnesscentar.entities.Korisnik;
-import com.fitnesscentar.entities.dto.SalaDto;
-import com.fitnesscentar.entities.dto.TerminAllDto;
-import com.fitnesscentar.entities.dto.TerminPrijavaDto;
-import com.fitnesscentar.entities.dto.TreningDto;
+import com.fitnesscentar.entities.Termin;
+import com.fitnesscentar.entities.dto.*;
 import com.fitnesscentar.services.KorisnikServis;
 import com.fitnesscentar.services.TerminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +70,18 @@ public class TerminController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Termin nije pronadjen");
         }
 
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<TerminDto> update(@PathVariable Long id, @RequestBody TerminBodyDto terminBodyDto) throws EntityNotFoundException{
+        try{
+            Termin termin = this.terminService.getOne(id);
+            if(termin.getBrojPrijavljenih() > 0){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ima prijavljenih");
+            }
+            return new ResponseEntity<>(TerminDto.build(terminService.update(termin, terminBodyDto)), HttpStatus.OK);
+        }catch (EntityNotFoundException exc){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Termin(ID: %d) nije pronadjen", id), exc);
+        }
     }
 }

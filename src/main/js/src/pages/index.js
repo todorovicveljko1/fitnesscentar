@@ -59,12 +59,7 @@ function Register() {
     ['treninzi', 'termini'],
     () =>
       fetch(
-        `http://localhost:8080/api/treninzi/search?naziv=${naziv}&opis=${opis}&cena=${cena}&tip=${tip}&vremePocetka=${date}&orderBy=${orderBy}&direction=${direction}`,
-        {
-          headers: {
-            Authorization: 'Bearer ' + window.localStorage.getItem('token'),
-          },
-        }
+        `http://localhost:8080/api/treninzi/search?naziv=${naziv}&opis=${opis}&cena=${cena}&tip=${tip}&vremePocetka=${date}&orderBy=${orderBy}&direction=${direction}`
       ).then((res) => res.json())
   )
   return (

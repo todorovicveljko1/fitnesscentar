@@ -1,7 +1,10 @@
 package com.fitnesscentar.services;
 
 import com.fitnesscentar.entities.Korisnik;
+import com.fitnesscentar.entities.Sala;
 import com.fitnesscentar.entities.Termin;
+import com.fitnesscentar.entities.Trening;
+import com.fitnesscentar.entities.dto.TerminBodyDto;
 import com.fitnesscentar.repositories.KorisnikRepository;
 import com.fitnesscentar.repositories.TerminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,12 @@ public class TerminService {
 
     private final TerminRepository terminRepository;
     private final KorisnikRepository korisnikRepository;
+    private final SalaService salaService;
     @Autowired
-    public TerminService(TerminRepository terminRepository,  KorisnikRepository korisnikRepository){
+    public TerminService(SalaService salaService, TerminRepository terminRepository,  KorisnikRepository korisnikRepository){
         this.terminRepository = terminRepository;
         this.korisnikRepository = korisnikRepository;
+        this.salaService = salaService;
     }
 
     public Termin getOne(Long id) throws EntityNotFoundException {
@@ -47,5 +52,13 @@ public class TerminService {
         termin.setBrojPrijavljenih(termin.getBrojPrijavljenih()-1);
         this.terminRepository.save(termin);
         this.korisnikRepository.save(korisnik);
+    }
+
+    public Termin update(Termin termin, TerminBodyDto terminBodyDto) {
+        termin.setCena(terminBodyDto.getCena());
+        termin.setVremePocetak(terminBodyDto.getVremePocetak());
+        Sala s = this.salaService.getOne(terminBodyDto.getSala());
+        termin.setSala(s);
+        return terminRepository.save(termin);
     }
 }

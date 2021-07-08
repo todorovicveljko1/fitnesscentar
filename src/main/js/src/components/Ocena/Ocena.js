@@ -6,7 +6,7 @@ function Ocena(props) {
   const { ocena, onChange } = props
   return (
     <span className='ocena d-inline-flex flex-row-reverse flex-nowrap ocena'>
-      <span class='ocena-text ps-2 text-muted'>{ocena}/5</span>
+      <span className='ocena-text ps-2 text-muted'>{ocena}/5</span>
       <LightningBolt
         className={`ic ${ocena >= 5 ? 'o' : 'no'}`}
         onClick={() => onChange(5)}
