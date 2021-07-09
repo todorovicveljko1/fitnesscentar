@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -96,11 +97,13 @@ public class TreningController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('TRENER')")
     public ResponseEntity<TreningDto> createTrening(@RequestBody TreningDto treningDto){
         return new ResponseEntity<>(TreningDto.build(treningService.create(treningDto)), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('TRENER')")
     public ResponseEntity<TreningDto> updateTrening(@PathVariable Long id, @RequestBody TreningDto treningDto) throws EntityNotFoundException{
         try{
             return new ResponseEntity<>(TreningDto.build(treningService.update(id, treningDto)), HttpStatus.OK);
@@ -110,12 +113,14 @@ public class TreningController {
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('TRENER')")
     public ResponseEntity deleteTrening(@PathVariable Long id){
         treningService.deleteById(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping(value = "/{id}/termini")
+    @PreAuthorize("hasAuthority('TRENER')")
     public ResponseEntity<TerminDto> addTermin(@PathVariable Long id, @RequestBody TerminBodyDto terminBodyDto) throws EntityNotFoundException{
         try{
             return new ResponseEntity<>(TerminDto.build(treningService.addTermin(id, terminBodyDto)), HttpStatus.OK);

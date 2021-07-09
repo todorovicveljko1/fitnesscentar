@@ -40,6 +40,7 @@ public class FitnessCentarController {
     }
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('TRENER')")
     public ResponseEntity<FitnessCentarDto> getFitnessCentar(@PathVariable Long id) throws EntityNotFoundException{
         try{
             return new ResponseEntity<>(FitnessCentarDto.build(fitnessCentarService.getOne(id)), HttpStatus.OK);

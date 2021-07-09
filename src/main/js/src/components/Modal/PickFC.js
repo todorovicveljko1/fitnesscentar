@@ -14,7 +14,7 @@ function PickFCModal(props) {
     isLoading: isLoadingFC,
     error: errorFC,
     data: dataFC,
-  } = useQuery(['fitnessCentri', 'treneri', props.user.id], () =>
+  } = useQuery(['pick', 'fitnessCentri', 'treneri', props.user.id], () =>
     fetch(
       'http://localhost:8080/api/treneri/' + props.user.id + '/fitnesscentar',
       {

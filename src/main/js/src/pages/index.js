@@ -52,7 +52,7 @@ function Register() {
   const [opis, setOpis] = useState('')
   const [cena, setCena] = useState('')
   const [tip, setTip] = useState('')
-  const [date, setDate] = useState('')
+  const [date, setDate] = useState(new Date().toJSON().slice(0, 10))
   const [orderBy, setOrderBy] = useState('')
   const [direction, setDirection] = useState('')
   const { isLoading, error, data, refetch } = useQuery(
@@ -66,12 +66,12 @@ function Register() {
     <Main style={{ height: '100vh' }}>
       <Center>
         {!loading && !!user && (
-          <Link className='btn btn-primary my-4' to='/app'>
+          <Link className='btn btn-primary my-3' to='/app/treninzi/pretraga'>
             Idi na aplikaciju
           </Link>
         )}
       </Center>
-      <Paper className='mx-3 pb-2'>
+      <Paper className='m-3 pb-2'>
         <div className='d-flex justify-content-between p-3'>
           <span className='fs-5 fw-bold '>Pretraga treninga</span>
         </div>

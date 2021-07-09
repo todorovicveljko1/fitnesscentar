@@ -73,6 +73,7 @@ public class TerminController {
     }
 
     @PutMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('TRENER')")
     public ResponseEntity<TerminDto> update(@PathVariable Long id, @RequestBody TerminBodyDto terminBodyDto) throws EntityNotFoundException{
         try{
             Termin termin = this.terminService.getOne(id);

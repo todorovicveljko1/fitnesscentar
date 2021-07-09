@@ -58,7 +58,7 @@ function TreninziPretraga() {
   const [opis, setOpis] = useState('')
   const [cena, setCena] = useState('')
   const [tip, setTip] = useState('')
-  const [date, setDate] = useState('')
+  const [date, setDate] = useState(new Date().toJSON().slice(0, 10))
   const [orderBy, setOrderBy] = useState('')
   const [direction, setDirection] = useState('')
   const { isLoading, error, data, refetch } = useQuery(

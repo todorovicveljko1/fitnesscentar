@@ -13,6 +13,7 @@ import com.fitnesscentar.services.TrenerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,6 +43,7 @@ public class TrenerController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<KorisnikDto>> getAll(){
         return new ResponseEntity<>(trenerService
                 .getAll()
@@ -50,17 +52,20 @@ public class TrenerController {
                 .collect(Collectors.toList()), HttpStatus.OK);
     }
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<KorisnikDto> create(@RequestBody KorisnikDto trener){
         trener.setLozinka(passwordEncoder.encode(trener.getLozinka()));
         return new ResponseEntity<>(new KorisnikDto().build(this.trenerService.crate(trener)), HttpStatus.CREATED);
     }
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public HttpStatus deleteTrener(@PathVariable Long id){
         trenerService.deleteById(id);
         return HttpStatus.NO_CONTENT;
     }
 
     @GetMapping(value="/neaktivni")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<KorisnikDto>> getAllTrener(){
         List<KorisnikDto> korisnikDtos = new ArrayList<>();
         for(Korisnik trener: trenerService.getAllNeAktivne()){
@@ -70,6 +75,7 @@ public class TrenerController {
     }
 
     @PutMapping(value="/{id}/aktiviraj")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<KorisnikDto> aktivirajTrener(@PathVariable Long id){
         try{
             return new ResponseEntity<>(KorisnikDto.build(trenerService.aktiviraj(id)), HttpStatus.OK);
@@ -77,8 +83,9 @@ public class TrenerController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Trener(ID: %d) nije pronadjen", id), exc);
         }
     }
-
+    // Provera da li trener je povezan sa fitnescentrom
     @GetMapping(value="/{id}/fitnesscentar")
+    @PreAuthorize("hasAuthority('TRENER')")
     public ResponseEntity<Boolean> getMyFC(@PathVariable Long id) throws ResponseStatusException{
         try{
             FitnessCentar fc = this.trenerService.getOne(id).getFitnessCentar();
@@ -89,8 +96,9 @@ public class TrenerController {
         }
 
     }
-
+    // Gde trener radi
     @GetMapping(value="/{id}/fitnesscentar/{idf}")
+    @PreAuthorize("hasAuthority('TRENER')")
     public ResponseEntity<FitnessCentarDto> getSala(@PathVariable Long id, @PathVariable Long idf) throws ResponseStatusException{
         try{
             FitnessCentar fc = this.fitnessCentarService.getOne(idf);
@@ -105,6 +113,7 @@ public class TrenerController {
     }
 
     @GetMapping(value="/sale")
+    @PreAuthorize("hasAuthority('TRENER')")
     public ResponseEntity<List<SalaDto>> getSale(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Korisnik korisnik = korisnikServis.korisnikSaKorisnickimImenom(authentication.getName());
@@ -116,6 +125,7 @@ public class TrenerController {
     }
 
     @GetMapping(value="/treninzi")
+    @PreAuthorize("hasAuthority('TRENER')")
     public ResponseEntity<List<TreningDto>> getTrenerTreninzi(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Korisnik korisnik = korisnikServis.korisnikSaKorisnickimImenom(authentication.getName());
@@ -127,6 +137,7 @@ public class TrenerController {
     }
 
     @PostMapping(value="/treninzi")
+    @PreAuthorize("hasAuthority('TRENER')")
     public ResponseEntity<TreningDto> postTrenerTreninzi(@RequestBody TreningDto treningDto){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Korisnik korisnik = korisnikServis.korisnikSaKorisnickimImenom(authentication.getName());
