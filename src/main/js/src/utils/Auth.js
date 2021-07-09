@@ -22,7 +22,10 @@ export const AuthProvider = ({ children }) => {
           setLoading(false)
           return json
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          localStorage.removeItem('token')
+          console.log(err)
+        })
     }
   }, [user])
   const login = (username, pass) => {
@@ -86,6 +89,28 @@ export const AuthProvider = ({ children }) => {
         setError('Korisnik sa korisničkim imenom ili emajlom vec postoji')
       })
   }
+  const updateMe = (data) => {
+    return fetch('http://localhost:8080/api/me', {
+      method: 'PUT',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        return res.json()
+      })
+      .then((json) => {
+        setUser(json)
+        setError(null)
+        return json
+      })
+      .catch((err) => {
+        setError(err)
+      })
+  }
   const logout = () => {
     setLoading(true)
     setUser(null)
@@ -97,7 +122,16 @@ export const AuthProvider = ({ children }) => {
   }
   return (
     <authContext.Provider
-      value={{ user, loading, login, logout, register, hasRole, error }}
+      value={{
+        user,
+        loading,
+        login,
+        logout,
+        register,
+        hasRole,
+        error,
+        updateMe,
+      }}
     >
       {children}
     </authContext.Provider>

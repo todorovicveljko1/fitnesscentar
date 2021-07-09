@@ -79,9 +79,11 @@ public class TrenerController {
     }
 
     @GetMapping(value="/{id}/fitnesscentar")
-    public ResponseEntity<FitnessCentarDto> getSala(@PathVariable Long id) throws ResponseStatusException{
+    public ResponseEntity<Boolean> getMyFC(@PathVariable Long id) throws ResponseStatusException{
         try{
-            return new ResponseEntity<>(FitnessCentarDto.build(this.trenerService.getOne(id).getFitnessCentar()), HttpStatus.OK);
+            FitnessCentar fc = this.trenerService.getOne(id).getFitnessCentar();
+            if(fc == null) return new ResponseEntity<>(false, HttpStatus.OK);
+            return new ResponseEntity<>(true, HttpStatus.OK);
         }catch(EntityNotFoundException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Trener nije pronadjen");
         }

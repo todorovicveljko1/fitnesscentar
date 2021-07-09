@@ -17,9 +17,9 @@ const columns = [
     right: true,
     wrapper: (aktivan) => {
       return aktivan ? (
-        <span class='badge rounded-pill bg-primary'>Aktivan</span>
+        <span className='badge rounded-pill bg-primary'>Aktivan</span>
       ) : (
-        <span class='badge rounded-pill bg-secondary'>Nije aktivan</span>
+        <span className='badge rounded-pill bg-secondary'>Nije aktivan</span>
       )
     },
   },

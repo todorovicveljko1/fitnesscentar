@@ -14,20 +14,23 @@ function PickFCModal(props) {
     isLoading: isLoadingFC,
     error: errorFC,
     data: dataFC,
-  } = useQuery('fitnessCentri', () =>
-    fetch('http://localhost:8080/api/' + props.user.id + '/fitnesscentar', {
-      headers: {
-        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
-      },
-    }).then((res) => res.json())
+  } = useQuery(['fitnessCentri', 'treneri', props.user.id], () =>
+    fetch(
+      'http://localhost:8080/api/treneri/' + props.user.id + '/fitnesscentar',
+      {
+        headers: {
+          Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+        },
+      }
+    ).then((res) => res.json())
   )
 
   const [id, setID] = useState('')
   useEffect(() => {
-    if (data && data[0].id) {
+    if (data && data[0]?.id) {
+      console.log(dataFC)
       setID(data[0].id)
-      if (!isLoadingFC && !(errorFC || dataFC.error) && data.length == 0) {
-        console.log(data)
+      if (!isLoadingFC && !(errorFC || dataFC.error) && !dataFC) {
         new bootstrap.Modal(document.getElementById('PickFCModal')).show()
       }
     }
@@ -51,7 +54,11 @@ function PickFCModal(props) {
           <div className='modal-body'>
             <div>
               {!isLoading && !(error || data.error) && (
-                <select value={id} onChange={setID} className='form-select'>
+                <select
+                  value={id}
+                  onChange={(e) => setID(e.target.value)}
+                  className='form-select'
+                >
                   {data.map((row) => (
                     <option key={row.id} value={row.id}>
                       {row.naziv}

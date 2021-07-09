@@ -27,7 +27,7 @@ function InputField(props) {
         </label>
       )}
       <input
-        value={value}
+        value={value ? value : ''}
         onChange={(e) => onChange(e.target.value)}
         type={type}
         className={`form-control ${error ? 'is-invalid' : ''} ${inputClass}`}

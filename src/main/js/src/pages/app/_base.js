@@ -21,6 +21,7 @@ const Treneri = loadable(() => import('./treneri/index'))
 const OneTermini = loadable(() => import('./termini/[id]'))
 const PrijaveTermini = loadable(() => import('./termini/prijave'))
 const Odradjeni = loadable(() => import('./odradjeni'))
+const Profil = loadable(() => import('./profil'))
 
 function Register() {
   const history = useHistory()
@@ -69,6 +70,7 @@ function Register() {
             exact
             component={Odradjeni}
           />
+          <ClanRoute path={`${path}/profil`} exact component={Profil} />
           <AdminRoute
             path={`${path}/treneri/potvrdi`}
             exact
